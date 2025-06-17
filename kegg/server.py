@@ -33,6 +33,8 @@ def list(database: DATABASES, option: Optional[str] = None):
     """
     Obtain an extensive list of entry identifiers and associated names from a KEGG database.
 
+    This operation can be used to obtain a list of all entries in each database.
+
     ## Pathways
     For the pathway database, you can use the option specifier to list only the pathways of a specific organism.
     If not provided, only reference pathways are returned. For example, to list all human pathways, use:

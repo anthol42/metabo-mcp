@@ -13,6 +13,8 @@ Il faut lauch la première version le plus tôt possible
 Implémenter/intégrer en priorité trois serveur MCP:
 - HMDB
 - [Lipidmaps]([https://www.lipidmaps.org](https://www.lipidmaps.org)) 
+- KEGG
+- Pathbank.org
 - PubMed (Il existe déjà des serveurs MCP [BioMedMCP](https://github.com/gosset-ai/mcps), [SimplePubMedMCP](https://github.com/andybrandt/mcp-simple-pubmed), [PubMedMCP](https://github.com/grll/pubmedmcp))
 
 

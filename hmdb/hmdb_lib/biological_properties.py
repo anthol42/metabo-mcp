@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field, fields
 from typing import Optional, Union, Dict, Tuple, List
-from pathway import Pathway
+from .pathway import Pathway
+from xml.etree import ElementTree
 
 @dataclass
 class BiologicalProperties:
@@ -14,12 +15,14 @@ class BiologicalProperties:
     pathways: List[Pathway] = field(default_factory=list, metadata={"help": "List of pathways associated with the metabolite"})
 
     @classmethod
-    def FromXML(cls, elem: Union[Dict, 'ElementTree.Element']) -> 'BiologicalProperties':
+    def FromXML(cls, elem: ElementTree.Element) -> 'BiologicalProperties':
         """
         Load a BiologicalProperties object from an XML element or dictionary.
         :param elem: The XML element or dictionary containing biological properties data
         :return: The BiologicalProperties object
         """
+        if elem is None:
+            return cls()
         cellular_locations = [loc.text for loc in elem.find('cellular_locations')]
         biospecimen_locations = [loc.text for loc in elem.find('biospecimen_locations')]
         tissue_locations = [loc.text for loc in elem.find('tissue_locations')]

@@ -5,18 +5,19 @@ from pyutils import progress
 import zipfile
 from lxml import etree as ET
 from typing import Union
-from metabolite import Metabolite
+from hmdb_lib import Metabolite
+
 def read_xml(path: Union[str, Path]):
     tree = ET.parse(path)
     return tree.getroot()
 
-def download_hmdb_data(load_cache: bool = True) -> None:
+def download_hmdb_data(load_cache: bool = True) -> Path:
     root = Path(__file__).parent
     hmdb_path = root / ".cache"
 
     if os.path.exists(hmdb_path / "hmdb_metabolites.xml") and load_cache:
         print("Loading HMDB cache from disk.")
-        return read_xml(hmdb_path / "hmdb_metabolites.xml")
+        return hmdb_path / "hmdb_metabolites.xml"
 
     hmdb_url = "https://www.hmdb.ca/system/downloads/current/hmdb_metabolites.zip"
 
@@ -43,15 +44,34 @@ def download_hmdb_data(load_cache: bool = True) -> None:
         zip_ref.extractall(hmdb_path)
 
     print("Reading HMDB data...")
-    return read_xml(hmdb_path / "hmdb_metabolites.xml")
+    return hmdb_path / "hmdb_metabolites.xml"
 
+def strip_namespace(elem):
+    for el in elem.iter():
+        if '}' in el.tag:
+            el.tag = el.tag.split('}', 1)[1]  # Remove namespace
+
+
+def count_metabolites_simple_text(filename):
+    """Fastest method - simple text search"""
+    count = 0
+    with open(filename, 'r', encoding='utf-8') as f:
+        for line in f:
+            count += line.count('<metabolite')
+    return count
 
 if __name__ == "__main__":
     from xml.etree import ElementTree as ET
-    file = download_hmdb_data()
+    filename = download_hmdb_data()
     metabolites = []
-    for elem in progress(file):
-        elem: ET.Element
-        metabolites.append(Metabolite.FromXML(elem))
+    total_metabolites = count_metabolites_simple_text(filename)
+    # Process elements one at a time without loading everything
+    prg = progress(total=total_metabolites, desc="Downloading metabolites")
+    for event, elem in ET.iterparse(filename, events=('start', 'end')):
+        if event == 'end' and elem.tag.split('}')[-1] == 'metabolite':
+            strip_namespace(elem)
+            metabolites.append(Metabolite.FromXML(elem))
+            elem.clear()  # Free memory
+            prg.update(len(metabolites))
 
     print(len(metabolites))

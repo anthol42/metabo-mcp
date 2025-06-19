@@ -19,6 +19,8 @@ class Protein:
         :param elem: The XML element or dictionary containing protein data
         :return: The Protein object
         """
+        if elem is None:
+            return cls()
         data = {field.name: elem.findtext(field.name) for field in fields(cls)}
 
         return cls(**data)

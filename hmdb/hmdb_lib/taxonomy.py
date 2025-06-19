@@ -17,15 +17,19 @@ class Taxonomy:
     substituents: List[str] = field(default_factory=list, metadata={"desc": "Substituents of the taxonomy"})
 
     @classmethod
-    def FromXML(cls, elem: Union[Dict, 'ElementTree.Element']) -> 'Taxonomy':
+    def FromXML(cls, elem: 'ElementTree.Element') -> 'Taxonomy':
         """
         Load a Taxonomy object from an XML element or dictionary.
         :param elem: The XML element or dictionary containing taxonomy data
         :return: The Taxonomy object
         """
+        if elem is None:
+            return cls()
         data = {field.name: elem.findtext(field.name) for field in fields(cls)}
-        data['alternative_parents'] = [ap.text for ap in elem.find('alternative_parents')]
-        data['substituents'] = [s.text for s in elem.find('substituents')]
+        if elem.find('alternative_parents'):
+            data['alternative_parents'] = [ap.text for ap in elem.find('alternative_parents')]
+        if elem.find('substituents'):
+            data['substituents'] = [s.text for s in elem.find('substituents')]
         data["cls"] = elem.findtext("class")
 
         return cls(**data)

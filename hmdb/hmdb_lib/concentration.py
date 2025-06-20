@@ -30,7 +30,8 @@ class Concentration:
             if data[field] is None:
                 patient_field = field.replace("subject_", "patient_")
                 data[field] = elem.findtext(patient_field)
-        if elem.find("patient_information"):
+
+        if elem.find("patient_information") is not None:
             data["subject_condition"] = elem.findtext("patient_information")
         # # Handle reference
         # reference_elem = elem.find('references')

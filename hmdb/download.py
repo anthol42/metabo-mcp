@@ -94,7 +94,12 @@ if __name__ == "__main__":
             metabolite = Metabolite.FromXML(elem)
             metabolites.append(metabolite)
             metabolite.toDB("db/hmdb.db")  # Save to database
-            elem.clear()  # Free            # metabolite_db = Metabolite.FromDB("db/hmdb.db", metabolite.accession)
+            # if metabolite.accession == "HMDB0004827":
+            #     # Save to tmp.xml for debugging
+            #     ET.ElementTree(elem).write("tmp.xml", encoding='utf-8', xml_declaration=True)
+            #     break
+            elem.clear()  # Free
+            # metabolite_db = Metabolite.FromDB("db/hmdb.db", metabolite.accession)
             # if metabolite_db.biological_properties != metabolite.biological_properties:
             #     print(metabolite.accession) # To add space
             #     break

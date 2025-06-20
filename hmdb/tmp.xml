@@ -1,0 +1,1159 @@
+<metabolite>
+  <version>5.0</version>
+  <creation_date>2005-11-16 15:48:42 UTC</creation_date>
+  <update_date>2021-10-13 04:18:52 UTC</update_date>
+  <accession>HMDB0000002</accession>
+  <status>quantified</status>
+  <secondary_accessions>
+    <accession>HMDB00002</accession>
+    <accession>HMDB0060172</accession>
+    <accession>HMDB60172</accession>
+  </secondary_accessions>
+  <name>1,3-Diaminopropane</name>
+  <description>1,3-Diaminopropane, also known as DAP or trimethylenediamine, belongs to the class of organic compounds known as monoalkylamines. These are organic compounds containing a primary aliphatic amine group. 1,3-Diaminopropane is a stable, flammable, and highly hygroscopic fluid. It is a polyamine that is normally quite toxic if swallowed, inhaled, or absorbed through the skin. It is a catabolic byproduct of spermidine. It is also a precursor in the enzymatic synthesis of beta-alanine. 1,3-Diaminopropane is involved in the arginine/proline metabolic pathways and the beta-alanine metabolic pathway. 1,3-Diaminopropane has been detected, but not quantified in, several different foods, such as cassava, shiitakes, oyster mushrooms, muscadine grapes, and cinnamons. This could make 1,3-diaminopropane a potential biomarker for the consumption of these foods.</description>
+  <synonyms>
+    <synonym>1,3-Propanediamine</synonym>
+    <synonym>1,3-Propylenediamine</synonym>
+    <synonym>Propane-1,3-diamine</synonym>
+    <synonym>tn</synonym>
+    <synonym>Trimethylenediamine</synonym>
+    <synonym>1,3-Diaminepropane</synonym>
+    <synonym>Trimethylenediamine dihydrochloride</synonym>
+    <synonym>Trimethylenediamine hydrochloride</synonym>
+    <synonym>1,3-diamino-N-Propane</synonym>
+    <synonym>1,3-Trimethylenediamine</synonym>
+    <synonym>3-Aminopropylamine</synonym>
+    <synonym>a,W-Propanediamine</synonym>
+    <synonym>1,3-Diaminopropane</synonym>
+  </synonyms>
+  <chemical_formula>C3H10N2</chemical_formula>
+  <average_molecular_weight>74.1249</average_molecular_weight>
+  <monisotopic_molecular_weight>74.08439833</monisotopic_molecular_weight>
+  <iupac_name>propane-1,3-diamine</iupac_name>
+  <traditional_iupac>α,ω-propanediamine</traditional_iupac>
+  <cas_registry_number>109-76-2</cas_registry_number>
+  <smiles>NCCCN</smiles>
+  <inchi>InChI=1S/C3H10N2/c4-2-1-3-5/h1-5H2</inchi>
+  <inchikey>XFNJVJPLKCPIBV-UHFFFAOYSA-N</inchikey>
+  <taxonomy>
+    <description> belongs to the class of organic compounds known as monoalkylamines. These are organic compounds containing an primary aliphatic amine group.</description>
+    <direct_parent>Monoalkylamines</direct_parent>
+    <kingdom>Organic compounds</kingdom>
+    <super_class>Organic nitrogen compounds</super_class>
+    <class>Organonitrogen compounds</class>
+    <sub_class>Amines</sub_class>
+    <molecular_framework>Aliphatic acyclic compounds</molecular_framework>
+    <alternative_parents>
+      <alternative_parent>Hydrocarbon derivatives</alternative_parent>
+      <alternative_parent>Organopnictogen compounds</alternative_parent>
+    </alternative_parents>
+    <substituents>
+      <substituent>Aliphatic acyclic compound</substituent>
+      <substituent>Hydrocarbon derivative</substituent>
+      <substituent>Organopnictogen compound</substituent>
+      <substituent>Primary aliphatic amine</substituent>
+    </substituents>
+    <external_descriptors>
+      <external_descriptor>a small molecule</external_descriptor>
+      <external_descriptor>alkane-alpha,omega-diamine</external_descriptor>
+    </external_descriptors>
+  </taxonomy>
+  <ontology>
+    <root>
+      <term>Physiological effect</term>
+      <definition>The effect on an organism physiology, resulting from its exposure to a chemical.</definition>
+      <parent_id />
+      <level>1</level>
+      <type>parent</type>
+      <descendants>
+        <descendant>
+          <term>Health effect</term>
+          <definition>A health condition or observation associated with a stimuli or with a biological activity of a chemical.</definition>
+          <parent_id>7693</parent_id>
+          <level>2</level>
+          <type>parent</type>
+          <synonyms>
+          </synonyms>
+          <descendants>
+            <descendant>
+              <term>Health condition</term>
+              <definition>A health effect that consists on short or long-term disease, condition, disorder, syndrome or constant abnormality.</definition>
+              <parent_id>7694</parent_id>
+              <level>3</level>
+              <type>parent</type>
+              <synonyms>
+              </synonyms>
+              <descendants>
+                <descendant>
+                  <term>Cancer</term>
+                  <definition>A group of disorders characterized by the presense of malignant neoplasm.</definition>
+                  <parent_id>7695</parent_id>
+                  <level>4</level>
+                  <type>parent</type>
+                  <synonyms>
+                  </synonyms>
+                  <descendants>
+                    <descendant>
+                      <term>Leukemia</term>
+                      <definition>A cancer that affects the blood or bone marrow characterized by an abnormal proliferation of blood cells. (do).</definition>
+                      <parent_id>7696</parent_id>
+                      <level>5</level>
+                      <type>child</type>
+                      <synonyms>
+                        <synonym>Leukaemia</synonym>
+                      </synonyms>
+                    </descendant>
+                  </descendants>
+                </descendant>
+              </descendants>
+            </descendant>
+          </descendants>
+        </descendant>
+      </descendants>
+    </root>
+    <root>
+      <term>Disposition</term>
+      <definition>A concept that describes the origin of a chemical, its location within an organism, or its route of exposure.</definition>
+      <parent_id />
+      <level>1</level>
+      <type>parent</type>
+      <descendants>
+        <descendant>
+          <term>Route of exposure</term>
+          <definition>A mean by which a chemical agent comes in contact with an organism, either under intended or unintended circumstances.</definition>
+          <parent_id>7724</parent_id>
+          <level>2</level>
+          <type>parent</type>
+          <synonyms>
+          </synonyms>
+          <descendants>
+            <descendant>
+              <term>Enteral</term>
+              <definition>Chemical exposure via the alimentary canal (mouth to anus).</definition>
+              <parent_id>7743</parent_id>
+              <level>3</level>
+              <type>parent</type>
+              <synonyms>
+              </synonyms>
+              <descendants>
+                <descendant>
+                  <term>Ingestion</term>
+                  <definition>Chemical exposure facilitated by entry through the mouth.</definition>
+                  <parent_id>7744</parent_id>
+                  <level>4</level>
+                  <type>child</type>
+                  <synonyms>
+                    <synonym>Digestion</synonym>
+                  </synonyms>
+                </descendant>
+              </descendants>
+            </descendant>
+          </descendants>
+        </descendant>
+        <descendant>
+          <term>Source</term>
+          <definition>Natural or synthetic origin of a chemical.</definition>
+          <parent_id>7724</parent_id>
+          <level>2</level>
+          <type>parent</type>
+          <synonyms>
+          </synonyms>
+          <descendants>
+            <descendant>
+              <term>Endogenous</term>
+              <definition />
+              <parent_id>7735</parent_id>
+              <level>3</level>
+              <type>child</type>
+              <synonyms>
+              </synonyms>
+            </descendant>
+            <descendant>
+              <term>Food</term>
+              <definition />
+              <parent_id>7735</parent_id>
+              <level>3</level>
+              <type>child</type>
+              <synonyms>
+              </synonyms>
+            </descendant>
+            <descendant>
+              <term>Biological</term>
+              <definition>A living organism (species or a higher taxonomy rank), in which a chemical can be found.</definition>
+              <parent_id>7735</parent_id>
+              <level>3</level>
+              <type>parent</type>
+              <synonyms>
+              </synonyms>
+              <descendants>
+                <descendant>
+                  <term>Plant</term>
+                  <definition>A living organism belonging to the kingdom plantea. typically, it grows in a permanent site, absorbs water and inorganic substances through its roots, and synthesizes nutrients in its leaves by photosynthesis using the green pigment chlorophyll. examples incude trees, shrubs, herbs, grasses, ferns, and mosses.</definition>
+                  <parent_id>7736</parent_id>
+                  <level>4</level>
+                  <type>parent</type>
+                  <synonyms>
+                    <synonym>Flora</synonym>
+                  </synonyms>
+                  <descendants>
+                    <descendant>
+                      <term>Poaceae</term>
+                      <definition />
+                      <parent_id>7738</parent_id>
+                      <level>5</level>
+                      <type>child</type>
+                      <synonyms>
+                        <synonym>Gramineae</synonym>
+                      </synonyms>
+                    </descendant>
+                    <descendant>
+                      <term>Fabaceae</term>
+                      <definition />
+                      <parent_id>7738</parent_id>
+                      <level>5</level>
+                      <type>child</type>
+                      <synonyms>
+                        <synonym>Papilionoideae</synonym>
+                        <synonym>Legume</synonym>
+                      </synonyms>
+                    </descendant>
+                    <descendant>
+                      <term>Glycine max</term>
+                      <definition />
+                      <parent_id>7738</parent_id>
+                      <level>5</level>
+                      <type>child</type>
+                      <synonyms>
+                        <synonym>Soy</synonym>
+                        <synonym>Soya</synonym>
+                        <synonym>Soybean</synonym>
+                        <synonym>Soya bean</synonym>
+                      </synonyms>
+                    </descendant>
+                    <descendant>
+                      <term>Cucurbitaceae</term>
+                      <definition />
+                      <parent_id>7738</parent_id>
+                      <level>5</level>
+                      <type>child</type>
+                      <synonyms>
+                        <synonym>Cucurbits</synonym>
+                        <synonym>Gourds</synonym>
+                      </synonyms>
+                    </descendant>
+                    <descendant>
+                      <term>Theobroma cacao</term>
+                      <definition />
+                      <parent_id>7738</parent_id>
+                      <level>5</level>
+                      <type>child</type>
+                      <synonyms>
+                      </synonyms>
+                    </descendant>
+                  </descendants>
+                </descendant>
+                <descendant>
+                  <term>Animal</term>
+                  <definition>A living organism belonging to the kingdom animalia. it feeds on organic matter, typically having specialized sense organs and nervous system and able to respond rapidly to stimuli.</definition>
+                  <parent_id>7736</parent_id>
+                  <level>4</level>
+                  <type>child</type>
+                  <synonyms>
+                    <synonym>Fauna</synonym>
+                  </synonyms>
+                </descendant>
+              </descendants>
+            </descendant>
+          </descendants>
+        </descendant>
+        <descendant>
+          <term>Biological location</term>
+          <definition>The physiological origin within an organism, including anatomical compnents, biofluids and excreta.</definition>
+          <parent_id>7724</parent_id>
+          <level>2</level>
+          <type>parent</type>
+          <synonyms>
+          </synonyms>
+          <descendants>
+            <descendant>
+              <term>Biofluid and excreta</term>
+              <definition>A liquid, semi-solid or solid material originating in the body.</definition>
+              <parent_id>7725</parent_id>
+              <level>3</level>
+              <type>parent</type>
+              <synonyms>
+              </synonyms>
+              <descendants>
+                <descendant>
+                  <term>Feces</term>
+                  <definition>The material discharged from the bowel during defecation. It consists of undigested food, intestinal mucus, epithelial cells, and bacteria.</definition>
+                  <parent_id>7731</parent_id>
+                  <level>4</level>
+                  <type>child</type>
+                  <synonyms>
+                    <synonym>Fecal</synonym>
+                    <synonym>Stool</synonym>
+                    <synonym>Faecal</synonym>
+                    <synonym>Faeces</synonym>
+                  </synonyms>
+                </descendant>
+                <descendant>
+                  <term>Urine</term>
+                  <definition>Excretion in liquid state processed by the kidney.</definition>
+                  <parent_id>7731</parent_id>
+                  <level>4</level>
+                  <type>child</type>
+                  <synonyms>
+                  </synonyms>
+                </descendant>
+                <descendant>
+                  <term>Blood</term>
+                  <definition>A liquid tissue with the primary function of transporting oxygen and carbon dioxide (nci). it supplies the tissues with nutrients, removes waste products, and contains various components of the immune system defending the body against infection.</definition>
+                  <parent_id>7731</parent_id>
+                  <level>4</level>
+                  <type>child</type>
+                  <synonyms>
+                  </synonyms>
+                </descendant>
+              </descendants>
+            </descendant>
+            <descendant>
+              <term>Subcellular</term>
+              <definition>An anatomical organizational level including a component within a biological cell .</definition>
+              <parent_id>7725</parent_id>
+              <level>3</level>
+              <type>parent</type>
+              <synonyms>
+              </synonyms>
+              <descendants>
+                <descendant>
+                  <term>Cytoplasm</term>
+                  <definition>The portion of the cell contained within the plasma membrane but excluding the nucleus.</definition>
+                  <parent_id>7730</parent_id>
+                  <level>4</level>
+                  <type>child</type>
+                  <synonyms>
+                    <synonym>Cytoplasma</synonym>
+                  </synonyms>
+                </descendant>
+              </descendants>
+            </descendant>
+          </descendants>
+        </descendant>
+      </descendants>
+    </root>
+    <root>
+      <term>Process</term>
+      <definition>Biological or chemical events, or a series thereof, leading to a known function or end-product.</definition>
+      <parent_id />
+      <level>1</level>
+      <type>parent</type>
+      <descendants>
+        <descendant>
+          <term>Naturally occurring process</term>
+          <definition>Naturally-occurring molecular events or a series thereof, leading to a known function or end-product.</definition>
+          <parent_id>7659</parent_id>
+          <level>2</level>
+          <type>parent</type>
+          <synonyms>
+          </synonyms>
+          <descendants>
+            <descendant>
+              <term>Biological process</term>
+              <definition>Biological or chemical events or a series thereof, leading to a known function or end-product within an organism.</definition>
+              <parent_id>7660</parent_id>
+              <level>3</level>
+              <type>parent</type>
+              <synonyms>
+              </synonyms>
+              <descendants>
+                <descendant>
+                  <term>Biochemical pathway</term>
+                  <definition>A linked series of chemical reactions that occur in a defined order within or between organism cells, and lead to a known function or end product.</definition>
+                  <parent_id>7661</parent_id>
+                  <level>4</level>
+                  <type>parent</type>
+                  <synonyms>
+                  </synonyms>
+                  <descendants>
+                    <descendant>
+                      <term>Beta-Alanine Metabolism</term>
+                      <definition> these dipeptides are found in protein rich foods such as chicken, beef, pork and fish. beta-alanine can also be formed in the liver from the catabolism of pyrimidine nucleotides which are broken down into uracil and dihydrouracil and then metabolized into beta-alanine and beta-aminoisobutyrate.</definition>
+                      <parent_id>7662</parent_id>
+                      <level>5</level>
+                      <type>child</type>
+                      <synonyms>
+                      </synonyms>
+                    </descendant>
+                  </descendants>
+                </descendant>
+              </descendants>
+            </descendant>
+          </descendants>
+        </descendant>
+      </descendants>
+    </root>
+  </ontology>
+  <state>Liquid</state>
+  <experimental_properties>
+    <property>
+      <kind>water_solubility</kind>
+      <value>1e+006 mg/L @ 25 °C (est)</value>
+      <source>The Good Scents Company Information System</source>
+    </property>
+    <property>
+      <kind>logp</kind>
+      <value>-1.43</value>
+      <source>HANSCH,C ET AL. (1995)</source>
+    </property>
+    <property>
+      <kind>melting_point</kind>
+      <value>-12 °C</value>
+      <source />
+    </property>
+    <property>
+      <kind>boiling_point</kind>
+      <value>139.80 °C. @  760.00 mm Hg</value>
+      <source>The Good Scents Company Information System</source>
+    </property>
+  </experimental_properties>
+  <predicted_properties>
+    <property>
+      <kind>logp</kind>
+      <value>-1.41</value>
+      <source>ALOGPS</source>
+    </property>
+    <property>
+      <kind>logs</kind>
+      <value>0.77</value>
+      <source>ALOGPS</source>
+    </property>
+    <property>
+      <kind>solubility</kind>
+      <value>437 g/L</value>
+      <source>ALOGPS</source>
+    </property>
+    <property>
+      <kind>logp</kind>
+      <value>-1.4</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>pka_strongest_basic</kind>
+      <value>10.17</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>iupac</kind>
+      <value>propane-1,3-diamine</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>average_mass</kind>
+      <value>74.1249</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>mono_mass</kind>
+      <value>74.08439833</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>smiles</kind>
+      <value>NCCCN</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>formula</kind>
+      <value>C3H10N2</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>inchi</kind>
+      <value>InChI=1S/C3H10N2/c4-2-1-3-5/h1-5H2</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>inchikey</kind>
+      <value>XFNJVJPLKCPIBV-UHFFFAOYSA-N</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>polar_surface_area</kind>
+      <value>52.04</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>refractivity</kind>
+      <value>22.73</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>polarizability</kind>
+      <value>9.06</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>rotatable_bond_count</kind>
+      <value>2</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>acceptor_count</kind>
+      <value>2</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>donor_count</kind>
+      <value>2</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>physiological_charge</kind>
+      <value>2</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>formal_charge</kind>
+      <value>0</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>number_of_rings</kind>
+      <value>0</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>bioavailability</kind>
+      <value>Yes</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>rule_of_five</kind>
+      <value>Yes</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>ghose_filter</kind>
+      <value>No</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>veber_rule</kind>
+      <value>No</value>
+      <source>ChemAxon</source>
+    </property>
+    <property>
+      <kind>mddr_like_rule</kind>
+      <value>No</value>
+      <source>ChemAxon</source>
+    </property>
+  </predicted_properties>
+  <spectra>
+    <spectrum>
+      <type>Specdb::EiMs</type>
+      <spectrum_id>1533</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::NmrTwoD</type>
+      <spectrum_id>916</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::NmrTwoD</type>
+      <spectrum_id>934</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::NmrOneD</type>
+      <spectrum_id>1023</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::NmrOneD</type>
+      <spectrum_id>3789</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::NmrOneD</type>
+      <spectrum_id>4048</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::NmrOneD</type>
+      <spectrum_id>4740</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>272</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>273</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>274</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>275</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>1311</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>3286</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>27666</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>28730</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>28772</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>30163</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>30249</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>30410</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>30742</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>30942</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>32035</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>32036</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>131464</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::CMs</type>
+      <spectrum_id>139198</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>4</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>5</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>6</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>2508</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>2509</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>2510</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>2511</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>2512</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>2513</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>2514</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>2515</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>20192</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>20193</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>20194</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>20441</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>20442</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>20443</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>21743</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>21744</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>21745</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>21992</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>21993</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>21994</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>445975</spectrum_id>
+    </spectrum>
+    <spectrum>
+      <type>Specdb::MsMs</type>
+      <spectrum_id>445976</spectrum_id>
+    </spectrum>
+  </spectra>
+  <biological_properties>
+    <cellular_locations>
+      <cellular>Cytoplasm</cellular>
+    </cellular_locations>
+    <biospecimen_locations>
+      <biospecimen>Blood</biospecimen>
+      <biospecimen>Feces</biospecimen>
+      <biospecimen>Urine</biospecimen>
+    </biospecimen_locations>
+    <tissue_locations>
+    </tissue_locations>
+    <pathways>
+      <pathway>
+        <name>beta-Alanine metabolism</name>
+        <smpdb_id />
+        <kegg_map_id>map00410</kegg_map_id>
+      </pathway>
+      <pathway>
+        <name>Carnosinuria, carnosinemia</name>
+        <smpdb_id>SMP00493</smpdb_id>
+        <kegg_map_id />
+      </pathway>
+      <pathway>
+        <name>GABA-Transaminase Deficiency</name>
+        <smpdb_id>SMP00351</smpdb_id>
+        <kegg_map_id />
+      </pathway>
+      <pathway>
+        <name>Ureidopropionase Deficiency</name>
+        <smpdb_id>SMP00492</smpdb_id>
+        <kegg_map_id />
+      </pathway>
+    </pathways>
+  </biological_properties>
+  <normal_concentrations>
+    <concentration>
+      <biospecimen>Blood</biospecimen>
+      <concentration_value>0.04 +/- 0.03</concentration_value>
+      <concentration_units>uM</concentration_units>
+      <subject_age>Adult (&gt;18 years old)</subject_age>
+      <subject_sex>Female</subject_sex>
+      <subject_condition>Normal</subject_condition>
+      <references>
+        <reference>
+          <reference_text>Byun JA, Lee SH, Jung BH, Choi MH, Moon MH, Chung BC: Analysis of polyamines as carbamoyl derivatives in urine and serum by liquid chromatography-tandem mass spectrometry. Biomed Chromatogr. 2008 Jan;22(1):73-80.</reference_text>
+          <pubmed_id>17668437</pubmed_id>
+        </reference>
+      </references>
+    </concentration>
+    <concentration>
+      <biospecimen>Urine</biospecimen>
+      <concentration_value>0.16 (0.02-0.69)</concentration_value>
+      <concentration_units>umol/mmol creatinine</concentration_units>
+      <subject_age>Adult (&gt;18 years old)</subject_age>
+      <subject_sex>Both</subject_sex>
+      <subject_condition>Normal</subject_condition>
+      <references>
+        <reference>
+          <reference_text>van den Berg GA, Muskiet FA, Kingma AW, van der Slik W, Halie MR: Simultaneous gas-chromatographic determination of free and acetyl-conjugated polyamines in urine. Clin Chem. 1986 Oct;32(10):1930-7.</reference_text>
+          <pubmed_id>3757213</pubmed_id>
+        </reference>
+      </references>
+    </concentration>
+    <concentration>
+      <biospecimen>Urine</biospecimen>
+      <concentration_value>2.55 (0.18-5.85)</concentration_value>
+      <concentration_units>umol/mmol creatinine</concentration_units>
+      <subject_age>Adult (&gt;18 years old)</subject_age>
+      <subject_sex>Both</subject_sex>
+      <subject_condition>Normal</subject_condition>
+      <references>
+        <reference>
+          <reference_text>Lee SH, Suh JW, Chung BC, Kim SO: Polyamine profiles in the urine of patients with leukemia. Cancer Lett. 1998 Jan 9;122(1-2):1-8.</reference_text>
+          <pubmed_id>9464484</pubmed_id>
+        </reference>
+      </references>
+    </concentration>
+    <concentration>
+      <biospecimen>Urine</biospecimen>
+      <concentration_value>0.015</concentration_value>
+      <concentration_units>umol/mmol creatinine</concentration_units>
+      <subject_age>Adult (&gt;18 years old)</subject_age>
+      <subject_sex>Both</subject_sex>
+      <subject_condition>Normal</subject_condition>
+      <references>
+        <reference>
+          <reference_text>Guo K, Li L: Differential 12C-/13C-isotope dansylation labeling and fast liquid chromatography/mass spectrometry for absolute and relative quantification of the metabolome. Anal Chem. 2009 May 15;81(10):3919-32. doi: 10.1021/ac900166a.</reference_text>
+          <pubmed_id>19309105</pubmed_id>
+        </reference>
+      </references>
+    </concentration>
+    <concentration>
+      <biospecimen>Urine</biospecimen>
+      <concentration_value>1.2</concentration_value>
+      <concentration_units>umol/mmol creatinine</concentration_units>
+      <subject_age>Adult (&gt;18 years old)</subject_age>
+      <subject_sex>Both</subject_sex>
+      <subject_condition>Normal</subject_condition>
+      <comment>urine by NMR</comment>
+      <references>
+        <reference>
+          <reference_text>Bouatra S, Aziat F, Mandal R, Guo AC, Wilson MR, Knox C, Bjorndahl TC, Krishnamurthy R, Saleem F, Liu P, Dame ZT, Poelzer J, Huynh J, Yallou FS, Psychogios N, Dong E, Bogumil R, Roehring C, Wishart DS: The human urine metabolome. PLoS One. 2013 Sep 4;8(9):e73076. doi: 10.1371/journal.pone.0073076. eCollection  2013.</reference_text>
+          <pubmed_id>24023812</pubmed_id>
+        </reference>
+      </references>
+    </concentration>
+  </normal_concentrations>
+  <abnormal_concentrations>
+    <concentration>
+      <biospecimen>Blood</biospecimen>
+      <concentration_value>0.13 +/- 0.13</concentration_value>
+      <concentration_units>uM</concentration_units>
+      <patient_age>Adult (&gt;18 years old)</patient_age>
+      <patient_sex>Female</patient_sex>
+      <patient_information>Breast cancer </patient_information>
+      <references>
+        <reference>
+          <reference_text>Byun JA, Lee SH, Jung BH, Choi MH, Moon MH, Chung BC: Analysis of polyamines as carbamoyl derivatives in urine and serum by liquid chromatography-tandem mass spectrometry. Biomed Chromatogr. 2008 Jan;22(1):73-80.</reference_text>
+          <pubmed_id>17668437</pubmed_id>
+        </reference>
+      </references>
+    </concentration>
+    <concentration>
+      <biospecimen>Feces</biospecimen>
+      <concentration_value />
+      <concentration_units />
+      <patient_age>Adult (&gt;18 years old)</patient_age>
+      <patient_sex>Both</patient_sex>
+      <patient_information>Colorectal Cancer</patient_information>
+      <references>
+        <reference>
+          <reference_text>Brown DG, Rao S, Weir TL, O'Malia J, Bazan M, Brown RJ, Ryan EP: Metabolomics and metabolic pathway networks from human colorectal cancers, adjacent mucosa, and stool. Cancer Metab. 2016 Jun 6;4:11. doi: 10.1186/s40170-016-0151-y. eCollection 2016.</reference_text>
+          <pubmed_id>27275383</pubmed_id>
+        </reference>
+      </references>
+    </concentration>
+    <concentration>
+      <biospecimen>Urine</biospecimen>
+      <concentration_value>0.96 (0.12-2.11)</concentration_value>
+      <concentration_units>umol/mmol creatinine</concentration_units>
+      <patient_age>Adult (&gt;18 years old)</patient_age>
+      <patient_sex>Both</patient_sex>
+      <patient_information>Leukemia</patient_information>
+      <comment>Initial stage of leukemia
+</comment>
+      <references>
+        <reference>
+          <reference_text>Lee SH, Suh JW, Chung BC, Kim SO: Polyamine profiles in the urine of patients with leukemia. Cancer Lett. 1998 Jan 9;122(1-2):1-8.</reference_text>
+          <pubmed_id>9464484</pubmed_id>
+        </reference>
+      </references>
+    </concentration>
+  </abnormal_concentrations>
+  <diseases>
+    <disease>
+      <name>Perillyl alcohol administration for cancer treatment</name>
+      <omim_id />
+      <references>
+        <reference>
+          <reference_text>Byun JA, Lee SH, Jung BH, Choi MH, Moon MH, Chung BC: Analysis of polyamines as carbamoyl derivatives in urine and serum by liquid chromatography-tandem mass spectrometry. Biomed Chromatogr. 2008 Jan;22(1):73-80.</reference_text>
+          <pubmed_id>17668437</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Zheng YF, Kong HW, Xiong JH, Lv S, Xu GW: Clinical significance and prognostic value of urinary nucleosides in breast cancer patients. Clin Biochem. 2005 Jan;38(1):24-30.</reference_text>
+          <pubmed_id>15607313</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Cauley JA, Zmuda JM, Danielson ME, Ljung BM, Bauer DC, Cummings SR, Kuller LH: Estrogen metabolites and the risk of breast cancer in older women. Epidemiology. 2003 Nov;14(6):740-4.</reference_text>
+          <pubmed_id>14569192</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Zhang Z, Chen H, Chan KK, Budd T, Ganapathi R: Gas chromatographic-mass spectrometric analysis of perillyl alcohol and metabolites in plasma. J Chromatogr B Biomed Sci Appl. 1999 May 14;728(1):85-95.</reference_text>
+          <pubmed_id>10379660</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Grace PB, Mistry NS, Carter MH, Leathem AJ, Teale P: High throughput quantification of phytoestrogens in human urine and serum using liquid chromatography/tandem mass spectrometry (LC-MS/MS). J Chromatogr B Analyt Technol Biomed Life Sci. 2007 Jun 15;853(1-2):138-46. Epub  2007 Mar 18.</reference_text>
+          <pubmed_id>17403619</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Silva CL, Passos M, Camara JS: Solid phase microextraction, mass spectrometry and metabolomic approaches for detection of potential urinary cancer biomarkers--a powerful strategy for breast cancer diagnosis. Talanta. 2012 Jan 30;89:360-8. doi: 10.1016/j.talanta.2011.12.041. Epub 2011 Dec  22.</reference_text>
+          <pubmed_id>22284503</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Sugimoto M, Wong DT, Hirayama A, Soga T, Tomita M: Capillary electrophoresis mass spectrometry-based saliva metabolomics identified oral, breast and pancreatic cancer-specific profiles. Metabolomics. 2010 Mar;6(1):78-95. Epub 2009 Sep 10.</reference_text>
+          <pubmed_id>20300169</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Lv W, Yang T: Identification of possible biomarkers for breast cancer from free fatty acid profiles determined by GC-MS and multivariate statistical analysis. Clin Biochem. 2012 Jan;45(1-2):127-33. doi: 10.1016/j.clinbiochem.2011.10.011. Epub 2011 Oct 26.</reference_text>
+          <pubmed_id>22061338</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Nam H, Chung BC, Kim Y, Lee K, Lee D: Combining tissue transcriptomics and urine metabolomics for breast cancer biomarker identification. Bioinformatics. 2009 Dec 1;25(23):3151-7. doi: 10.1093/bioinformatics/btp558. Epub 2009 Sep 25.</reference_text>
+          <pubmed_id>19783829</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Woo HM, Kim KM, Choi MH, Jung BH, Lee J, Kong G, Nam SJ, Kim S, Bai SW, Chung BC: Mass spectrometry based metabolomic approaches in urinary biomarker study of women's cancers. Clin Chim Acta. 2009 Feb;400(1-2):63-9. doi: 10.1016/j.cca.2008.10.014. Epub 2008 Oct 30.</reference_text>
+          <pubmed_id>19010317</pubmed_id>
+        </reference>
+      </references>
+    </disease>
+    <disease>
+      <name>Colorectal cancer</name>
+      <omim_id>114500</omim_id>
+      <references>
+        <reference>
+          <reference_text>Ishiwata S, Itoh K, Yamaguchi T, Ishida N, Mizugaki M: Comparison of serum and urinary levels of modified nucleoside, 1-methyladenosine, in cancer patients using a monoclonal antibody-based inhibition ELISA. Tohoku J Exp Med. 1995 May;176(1):61-8.</reference_text>
+          <pubmed_id>7482520</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Monleon D, Morales JM, Barrasa A, Lopez JA, Vazquez C, Celda B: Metabolite profiling of fecal water extracts from human colorectal cancer. NMR Biomed. 2009 Apr;22(3):342-8. doi: 10.1002/nbm.1345.</reference_text>
+          <pubmed_id>19006102</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Weir TL, Manter DK, Sheflin AM, Barnett BA, Heuberger AL, Ryan EP: Stool microbiome and metabolome differences between colorectal cancer patients and healthy adults. PLoS One. 2013 Aug 6;8(8):e70803. doi: 10.1371/journal.pone.0070803. Print 2013.</reference_text>
+          <pubmed_id>23940645</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Phua LC, Chue XP, Koh PK, Cheah PY, Ho HK, Chan EC: Non-invasive fecal metabonomic detection of colorectal cancer. Cancer Biol Ther. 2014 Apr;15(4):389-97. doi: 10.4161/cbt.27625. Epub 2014 Jan 14.</reference_text>
+          <pubmed_id>24424155</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Ritchie SA, Ahiahonu PW, Jayasinghe D, Heath D, Liu J, Lu Y, Jin W, Kavianpour A, Yamazaki Y, Khan AM, Hossain M, Su-Myat KK, Wood PL, Krenitsky K, Takemasa I, Miyake M, Sekimoto M, Monden M, Matsubara H, Nomura F, Goodenowe DB: Reduced levels of hydroxylated, polyunsaturated ultra long-chain fatty acids in the serum of colorectal cancer patients: implications for early screening and detection. BMC Med. 2010 Feb 15;8:13. doi: 10.1186/1741-7015-8-13.</reference_text>
+          <pubmed_id>20156336</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Qiu Y, Cai G, Su M, Chen T, Zheng X, Xu Y, Ni Y, Zhao A, Xu LX, Cai S, Jia W: Serum metabolite profiling of human colorectal cancer using GC-TOFMS and UPLC-QTOFMS. J Proteome Res. 2009 Oct;8(10):4844-50. doi: 10.1021/pr9004162.</reference_text>
+          <pubmed_id>19678709</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Cheng Y, Xie G, Chen T, Qiu Y, Zou X, Zheng M, Tan B, Feng B, Dong T, He P, Zhao L, Zhao A, Xu LX, Zhang Y, Jia W: Distinct urinary metabolic profile of human colorectal cancer. J Proteome Res. 2012 Feb 3;11(2):1354-63. doi: 10.1021/pr201001a. Epub 2011 Dec 28.</reference_text>
+          <pubmed_id>22148915</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Ni Y, Xie G, Jia W: Metabonomics of human colorectal cancer: new approaches for early diagnosis and biomarker discovery. J Proteome Res. 2014 Sep 5;13(9):3857-70. doi: 10.1021/pr500443c. Epub 2014 Aug 14.</reference_text>
+          <pubmed_id>25105552</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Ikeda A, Nishiumi S, Shinohara M, Yoshie T, Hatano N, Okuno T, Bamba T, Fukusaki E, Takenawa T, Azuma T, Yoshida M: Serum metabolomics as a novel diagnostic approach for gastrointestinal cancer. Biomed Chromatogr. 2012 May;26(5):548-58. doi: 10.1002/bmc.1671. Epub 2011 Jul 20.</reference_text>
+          <pubmed_id>21773981</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Goedert JJ, Sampson JN, Moore SC, Xiao Q, Xiong X, Hayes RB, Ahn J, Shi J, Sinha R: Fecal metabolomics: assay performance and association with colorectal cancer. Carcinogenesis. 2014 Sep;35(9):2089-96. doi: 10.1093/carcin/bgu131. Epub 2014 Jul 18.</reference_text>
+          <pubmed_id>25037050</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Sinha R, Ahn J, Sampson JN, Shi J, Yu G, Xiong X, Hayes RB, Goedert JJ: Fecal Microbiota, Fecal Metabolome, and Colorectal Cancer Interrelations. PLoS One. 2016 Mar 25;11(3):e0152126. doi: 10.1371/journal.pone.0152126. eCollection 2016.</reference_text>
+          <pubmed_id>27015276</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Lin Y, Ma C, Liu C, Wang Z, Yang J, Liu X, Shen Z, Wu R: NMR-based fecal metabolomics fingerprinting as predictors of earlier diagnosis in patients with colorectal cancer. Oncotarget. 2016 May 17;7(20):29454-64. doi: 10.18632/oncotarget.8762.</reference_text>
+          <pubmed_id>27107423</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Brown DG, Rao S, Weir TL, O'Malia J, Bazan M, Brown RJ, Ryan EP: Metabolomics and metabolic pathway networks from human colorectal cancers, adjacent mucosa, and stool. Cancer Metab. 2016 Jun 6;4:11. doi: 10.1186/s40170-016-0151-y. eCollection 2016.</reference_text>
+          <pubmed_id>27275383</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Wang X, Wang J, Rao B, Deng L: Gut flora profiling and fecal metabolite composition of colorectal cancer patients and healthy individuals. Exp Ther Med. 2017 Jun;13(6):2848-2854. doi: 10.3892/etm.2017.4367. Epub 2017 Apr 20.</reference_text>
+          <pubmed_id>28587349</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Silke Matysik, Caroline Ivanne Le Roy, Gerhard Liebisch, Sandrine Paule Claus. Metabolomics of fecal samples: A practical consideration. Trends in Food Science &amp; Technology. Vol. 57, Part B, Nov. 2016, p.244-255: http://www.sciencedirect.com/science/article/pii/S0924224416301984</reference_text>
+        </reference>
+      </references>
+    </disease>
+    <disease>
+      <name>Leukemia</name>
+      <omim_id />
+      <references>
+        <reference>
+          <reference_text>Lee SH, Suh JW, Chung BC, Kim SO: Polyamine profiles in the urine of patients with leukemia. Cancer Lett. 1998 Jan 9;122(1-2):1-8.</reference_text>
+          <pubmed_id>9464484</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Curtius HC, Wolfensberger M, Redweik U, Leimbacher W, Maibach RA, Isler W: Mass fragmentography of 5-hydroxytryptophol and 5-methoxytryptophol in human cerebrospinal fluid. J Chromatogr. 1975 Oct 29;112:523-31.</reference_text>
+          <pubmed_id>1184685</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Peng CT, Wu KH, Lan SJ, Tsai JJ, Tsai FJ, Tsai CH: Amino acid concentrations in cerebrospinal fluid in children with acute lymphoblastic leukemia undergoing chemotherapy. Eur J Cancer. 2005 May;41(8):1158-63. Epub 2005 Apr 14.</reference_text>
+          <pubmed_id>15911239</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Ishiwata S, Itoh K, Yamaguchi T, Ishida N, Mizugaki M: Comparison of serum and urinary levels of modified nucleoside, 1-methyladenosine, in cancer patients using a monoclonal antibody-based inhibition ELISA. Tohoku J Exp Med. 1995 May;176(1):61-8.</reference_text>
+          <pubmed_id>7482520</pubmed_id>
+        </reference>
+        <reference>
+          <reference_text>Silvennoinen R, Malminiemi K, Malminiemi O, Seppala E, Vilpo J: Pharmacokinetics of chlorambucil in patients with chronic lymphocytic leukaemia: comparison of different days, cycles and doses. Pharmacol Toxicol. 2000 Nov;87(5):223-8.</reference_text>
+          <pubmed_id>11129502</pubmed_id>
+        </reference>
+      </references>
+    </disease>
+  </diseases>
+  <kegg_id>C00986</kegg_id>
+  <drugbank_id />
+  <foodb_id>FDB005274</foodb_id>
+  <chemspider_id>415</chemspider_id>
+  <pubchem_compound_id>428</pubchem_compound_id>
+  <knapsack_id>C00007404</knapsack_id>
+  <pdb_id />
+  <chebi_id>15725</chebi_id>
+  <biocyc_id>CPD-313</biocyc_id>
+  <wikipedia_id>1,3-Diaminopropane</wikipedia_id>
+  <phenol_explorer_compound_id />
+  <bigg_id />
+  <metlin_id />
+  <vmh_id />
+  <fbonto_id />
+  <synthesis_reference>Takayanagi, Yasuyuki; Oohinata, Takahiro.  Preparation of 1,3-diaminopropane from acrylonitrile and ammonia.    Jpn. Kokai Tokkyo Koho  (1994),     5 pp.</synthesis_reference>
+  <general_references>
+    <reference>
+      <reference_text>van den Berg GA, Muskiet FA, Kingma AW, van der Slik W, Halie MR: Simultaneous gas-chromatographic determination of free and acetyl-conjugated polyamines in urine. Clin Chem. 1986 Oct;32(10):1930-7.</reference_text>
+      <pubmed_id>3757213</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>Kim KR, Paik MJ, Kim JH, Dong SW, Jeong DH: Rapid gas chromatographic profiling and screening of biologically active amines. J Pharm Biomed Anal. 1997 Jun;15(9-10):1309-18.</reference_text>
+      <pubmed_id>9226558</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>Bremer HJ, Kohne E: The excretion of diamines in human urine. II. Cadaverine, putrescine, 1,3-diaminopropane, 2,2'-dithiobis(ethylamine) and spermidine in urine of patients with cystinuria and cystinlysinuria. Clin Chim Acta. 1971 May;32(3):407-18.</reference_text>
+      <pubmed_id>5096953</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>Fleisher JH, Russell DH: Estimation of urinary diamines and polyamines by thin-layer chromatography. J Chromatogr. 1975 Jul 16;110(2):335-40.</reference_text>
+      <pubmed_id>1150841</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>Blackburn P, Peterson CM: Thiol-disulfide interchange between cystine and N-2-mercaptoethyl-1, 3-diaminopropane as a potential treatment for cystinuria. Anal Biochem. 1984 Jan;136(1):31-8.</reference_text>
+      <pubmed_id>6324613</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>Aigner-Held R, Campbell RA, Daves GD Jr: Polyamine-pyridoxal Schiff bases in urine. Proc Natl Acad Sci U S A. 1979 Dec;76(12):6652-5.</reference_text>
+      <pubmed_id>293750</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>Somayaji VV, Guay V, Peng Z, Sykes TR, Noujaim AA: Synthesis and evaluation of a new bifunctional chelating agent for the preparation of radioimmunoconjugates. Q J Nucl Med. 1995 Dec;39(4):300-10.</reference_text>
+      <pubmed_id>8624793</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>van den Berg GA, Schaaf JM, Nagel GT, Teelken AW, Muskiet FA: Determination of polyamines and metabolites in cerebrospinal fluid by isotope dilution mass fragmentography, and a clinical application. Clin Chim Acta. 1987 Jun 15;165(2-3):147-54.</reference_text>
+      <pubmed_id>3308180</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>Muskiet FA, van den Berg GA, Kingma AW, Fremouw-Ottevangers DC, Halie MR: Total polyamines and their non-alpha-amino acid metabolites simultaneously determined in urine by capillary gas chromatography, with nitrogen-phosphorus detector; and some clinical applications. Clin Chem. 1984 May;30(5):687-95.</reference_text>
+      <pubmed_id>6713628</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>Lee SH, Suh JW, Chung BC, Kim SO: Polyamine profiles in the urine of patients with leukemia. Cancer Lett. 1998 Jan 9;122(1-2):1-8.</reference_text>
+      <pubmed_id>9464484</pubmed_id>
+    </reference>
+    <reference>
+      <reference_text>Thiele I, Swainston N, Fleming RM, Hoppe A, Sahoo S, Aurich MK, Haraldsdottir H, Mo ML, Rolfsson O, Stobbe MD, Thorleifsson SG, Agren R, Bolling C, Bordel S, Chavali AK, Dobson P, Dunn WB, Endler L, Hala D, Hucka M, Hull D, Jameson D, Jamshidi N, Jonsson JJ, Juty N, Keating S, Nookaew I, Le Novere N, Malys N, Mazein A, Papin JA, Price ND, Selkov E Sr, Sigurdsson MI, Simeonidis E, Sonnenschein N, Smallbone K, Sorokin A, van Beek JH, Weichart D, Goryanin I, Nielsen J, Westerhoff HV, Kell DB, Mendes P, Palsson BO: A community-driven global reconstruction of human metabolism. Nat Biotechnol. 2013 May;31(5):419-25. doi: 10.1038/nbt.2488. Epub 2013 Mar 3.</reference_text>
+      <pubmed_id>23455439</pubmed_id>
+    </reference>
+  </general_references>
+  <protein_associations>
+    <protein>
+      <protein_accession>HMDBP00217</protein_accession>
+      <name>Spermine synthase</name>
+      <uniprot_id>P52788</uniprot_id>
+      <gene_name>SMS</gene_name>
+      <protein_type>Enzyme</protein_type>
+    </protein>
+    <protein>
+      <protein_accession>HMDBP00219</protein_accession>
+      <name>Deoxyhypusine synthase</name>
+      <uniprot_id>P49366</uniprot_id>
+      <gene_name>DHPS</gene_name>
+      <protein_type>Unknown</protein_type>
+    </protein>
+    <protein>
+      <protein_accession>HMDBP00390</protein_accession>
+      <name>Amiloride-sensitive amine oxidase [copper-containing]</name>
+      <uniprot_id>P19801</uniprot_id>
+      <gene_name>ABP1</gene_name>
+      <protein_type>Unknown</protein_type>
+    </protein>
+    <protein>
+      <protein_accession>HMDBP00393</protein_accession>
+      <name>Membrane primary amine oxidase</name>
+      <uniprot_id>Q16853</uniprot_id>
+      <gene_name>AOC3</gene_name>
+      <protein_type>Unknown</protein_type>
+    </protein>
+    <protein>
+      <protein_accession>HMDBP00394</protein_accession>
+      <name>Retina-specific copper amine oxidase</name>
+      <uniprot_id>O75106</uniprot_id>
+      <gene_name>AOC2</gene_name>
+      <protein_type>Unknown</protein_type>
+    </protein>
+    <protein>
+      <protein_accession>HMDBP00420</protein_accession>
+      <name>S-adenosylmethionine decarboxylase proenzyme</name>
+      <uniprot_id>P17707</uniprot_id>
+      <gene_name>AMD1</gene_name>
+      <protein_type>Unknown</protein_type>
+    </protein>
+    <protein>
+      <protein_accession>HMDBP01034</protein_accession>
+      <name>Ornithine decarboxylase</name>
+      <uniprot_id>P11926</uniprot_id>
+      <gene_name>ODC1</gene_name>
+      <protein_type>Enzyme</protein_type>
+    </protein>
+  </protein_associations>
+</metabolite>

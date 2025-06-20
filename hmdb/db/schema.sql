@@ -68,8 +68,7 @@ CREATE TABLE predicted_property (
 
 -- Taxonomy class
 CREATE TABLE taxonomy (
-    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
-    accession           TEXT REFERENCES metabolite(accession),  -- Accession of the taxonomy
+    accession           TEXT REFERENCES metabolite(accession) PRIMARY KEY,  -- Accession of the taxonomy
 
     description         TEXT,   -- Description of the taxonomy
     direct_parent       TEXT,   -- Direct parent taxonomy
@@ -80,16 +79,12 @@ CREATE TABLE taxonomy (
     molecular_framework TEXT    -- Molecular framework
 );
 CREATE TABLE taxonomy_alternative_parent (
-    taxonomy_id     INTEGER NOT NULL,
-    alt_parent      TEXT NOT NULL,
-
-    FOREIGN KEY (taxonomy_id) REFERENCES taxonomy(id)
+    accession     TEXT REFERENCES metabolite(accession),
+    alt_parent      TEXT NOT NULL
 );
 CREATE TABLE taxonomy_substituent (
-    taxonomy_id     INTEGER NOT NULL,
-    substituent     TEXT NOT NULL,
-
-    FOREIGN KEY (taxonomy_id) REFERENCES taxonomy(id)
+    accession     TEXT REFERENCES metabolite(accession),
+    substituent     TEXT NOT NULL
 );
 
 -- BiologicalProperties

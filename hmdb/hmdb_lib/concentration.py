@@ -15,7 +15,7 @@ class Concentration:
     subject_age: Optional[str] = None
     subject_sex: Optional[str] = None
     subject_condition: Optional[str] = None
-    references: Optional[List[str]] = field(default=None)
+    # references: Optional[List[str]] = field(default=None) # Not handled for now in the DB
 
     @classmethod
     def FromXML(cls, elem: ElementTree.Element) -> 'Concentration':
@@ -25,12 +25,17 @@ class Concentration:
         :return: The Concentration object
         """
         data = {field.name: elem.findtext(field.name) for field in fields(cls)}
-        # Handle reference
-        reference_elem = elem.find('references')
-        if reference_elem is not None:
-            data['references'] = [ref.find("reference_text").text for ref in reference_elem.findall('reference_text')]
-        else:
-            data['references'] = []
+        # Check if subject_... is replaced by patient_...
+        for field in ["subject_age", "subject_sex", "subject_condition"]:
+            if data[field] is None:
+                patient_field = field.replace("subject_", "patient_")
+                data[field] = elem.findtext(patient_field)
+        # # Handle reference
+        # reference_elem = elem.find('references')
+        # if reference_elem is not None:
+        #     data['references'] = [ref.find("reference_text").text for ref in reference_elem.findall('reference_text')]
+        # else:
+        #     data['references'] = []
         return cls(**data)
 
     def to_pandas(self):

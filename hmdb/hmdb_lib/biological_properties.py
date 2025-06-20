@@ -36,6 +36,40 @@ class BiologicalProperties:
             pathways=pathways
         )
 
+    @classmethod
+    def FromDB(cls, cursor, accession: str) -> 'BiologicalProperties':
+        """
+        Load a BiologicalProperties object from the database.
+        :param cursor: Database cursor
+        :param accession: Accession number of the metabolite
+        :return: The BiologicalProperties object
+        """
+        cursor.execute("""
+            SELECT location FROM cellular_location WHERE metabolite_accession = ?
+        """, (accession,))
+        cellular_locations = [row["location"] for row in cursor.fetchall()]
+
+        cursor.execute("""
+            SELECT location FROM biospecimen_location WHERE metabolite_accession = ?
+        """, (accession,))
+        biospecimen_locations = [row["location"] for row in cursor.fetchall()]
+
+        cursor.execute("""
+            SELECT location FROM tissue_location WHERE metabolite_accession = ?
+        """, (accession,))
+        tissue_locations = [row["location"] for row in cursor.fetchall()]
+
+        cursor.execute("""
+            SELECT pathway_id FROM metabolite_pathway WHERE metabolite_accession = ?
+        """, (accession,))
+        pathways = [Pathway.FromDB(cursor, row["pathway_id"]) for row in cursor.fetchall()]
+
+        return cls(
+            cellular_locations=cellular_locations,
+            biospecimen_locations=biospecimen_locations,
+            tissue_locations=tissue_locations,
+            pathways=pathways
+        )
     def toDB(self, cursor, accession: str):
         """
         Save the biological properties to the database.

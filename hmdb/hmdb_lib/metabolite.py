@@ -96,6 +96,82 @@ class Metabolite(DBClass):
                 print(elem.tag, elem.text)
         return cls(**data)
 
+    @classmethod
+    def FromDB(cls, db_path: str, accession: str) -> "Metabolite":
+        data = {}
+        with cls.cursor_as_dict(db_path) as cursor:
+            # Fetch the metabolite data
+            cursor.execute("""
+                SELECT * FROM metabolite WHERE accession = ?
+            """, (accession,))
+            row = cursor.fetchone()
+            if not row:
+                raise ValueError(f"Metabolite with accession {accession} not found in database.")
+
+            # Create the Metabolite object from the row
+            metabolite = cls(**row)
+
+            # Fetch secondary accessions
+            cursor.execute("""
+                SELECT secondary_accession FROM secondary_accession WHERE metabolite_accession = ?
+            """, (accession,))
+            metabolite.secondary_accessions = [r['secondary_accession'] for r in cursor.fetchall()]
+
+            # Fetch synonyms
+            cursor.execute("""
+                SELECT synonym FROM synonym WHERE metabolite_accession = ?
+            """, (accession,))
+            metabolite.synonyms = [r['synonym'] for r in cursor.fetchall()]
+
+            # Fetch experimental properties
+            cursor.execute("""
+                SELECT property_key, property_value FROM experimental_property WHERE metabolite_accession = ?
+            """, (accession,))
+            metabolite.experimental_properties = {r['property_key']: r['property_value'] for r in cursor.fetchall()}
+
+            # Fetch predicted properties
+            cursor.execute("""
+                SELECT property_key, property_value FROM predicted_property WHERE metabolite_accession = ?
+            """, (accession,))
+            metabolite.predicted_properties = {r['property_key']: r['property_value'] for r in cursor.fetchall()}
+
+            # Fetch concentrations
+            cursor.execute("""
+                SELECT biospecimen, 
+                       concentration_value, 
+                       concentration_units, 
+                       subject_age,
+                       subject_sex,
+                       subject_condition
+                FROM concentration WHERE metabolite_accession = ? AND type = 'normal'
+            """, (accession,))
+            metabolite.normal_concentrations = [Concentration(**r) for r in cursor.fetchall()]
+
+            cursor.execute("""
+                           SELECT biospecimen,
+                                  concentration_value,
+                                  concentration_units,
+                                  subject_age,
+                                  subject_sex,
+                                  subject_condition
+                           FROM concentration
+                           WHERE metabolite_accession = ?
+                             AND type = 'abnormal'
+                           """, (accession,))
+            metabolite.abnormal_concentrations = [Concentration(**r) for r in cursor.fetchall()]
+
+            # Fetch protein associations
+            cursor.execute("""
+                SELECT protein_accession, name, uniprot_id, gene_name, protein_type FROM protein WHERE metabolite_accession = ?
+            """, (accession,))
+            metabolite.protein_associations = [Protein(**r) for r in cursor.fetchall()]
+
+            # Fetch taxonomy
+            metabolite.taxonomy = Taxonomy.FromDB(cursor, accession)
+
+            # Fetch biological properties
+            metabolite.biological_properties = BiologicalProperties.FromDB(cursor, accession)
+        return metabolite
     def toDB(self, db_path: str) -> bool:
         """
         Save the metabolite to the database.

@@ -34,6 +34,31 @@ class Taxonomy:
 
         return cls(**data)
 
+    @classmethod
+    def FromDB(cls, cursor, accession: str) -> 'Taxonomy':
+        """
+        Load a Taxonomy object from the database.
+        :param cursor: Database cursor
+        :param accession: Accession number of the metabolite
+        :return: The Taxonomy object
+        """
+        cursor.execute("SELECT description, direct_parent, kingdom, super_class, cls, sub_class, molecular_framework  "
+                       "FROM taxonomy WHERE accession = ?", (accession,))
+        row = cursor.fetchone()
+        if not row:
+            return cls()
+        data = dict(row)
+
+        # Load alternative parents
+        cursor.execute("SELECT alt_parent FROM taxonomy_alternative_parent WHERE accession = ?", (accession,))
+        data['alternative_parents'] = [r[0] for r in cursor.fetchall()]
+
+        # Load substituents
+        cursor.execute("SELECT substituent FROM taxonomy_substituent WHERE accession = ?", (accession,))
+        data['substituents'] = [r[0] for r in cursor.fetchall()]
+
+        return cls(**data)
+
     def toDB(self, cursor, accession: str):
         """
         Store the taxonomy data in the database.
@@ -48,11 +73,10 @@ class Taxonomy:
              self.sub_class, self.molecular_framework)
         )
 
-        tax_id = cursor.lastrowid
         if self.alternative_parents:
-            cursor.executemany("INSERT INTO taxonomy_alternative_parent (taxonomy_id, alt_parent) VALUES (?, ?)",
-                               [(tax_id, parent) for parent in self.alternative_parents])
+            cursor.executemany("INSERT INTO taxonomy_alternative_parent (accession, alt_parent) VALUES (?, ?)",
+                               [(accession, parent) for parent in self.alternative_parents])
 
         if self.substituents:
-            cursor.executemany("INSERT INTO taxonomy_substituent (taxonomy_id, substituent) VALUES (?, ?)",
-                               [(tax_id, subs) for subs in self.substituents])
+            cursor.executemany("INSERT INTO taxonomy_substituent (accession, substituent) VALUES (?, ?)",
+                               [(accession, subs) for subs in self.substituents])

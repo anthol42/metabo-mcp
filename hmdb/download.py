@@ -79,6 +79,9 @@ if __name__ == "__main__":
             metabolites.append(metabolite)
             metabolite.toDB("db/hmdb.db")  # Save to database
             elem.clear()  # Free memory
+            metabolite_db = Metabolite.FromDB("db/hmdb.db")
+            if metabolite_db != metabolite:
+                print("Metabolite database mismatch.")
             prg.update(len(metabolites))
 
     print(len(metabolites))

@@ -23,6 +23,21 @@ class Pathway:
 
         return cls(**data)
 
+    @classmethod
+    def FromDB(cls, cursor, pathway_id: int) -> 'Pathway':
+        """
+        Load a Pathway object from the database.
+        :param cursor: Database cursor
+        :param pathway_id: ID of the pathway in the database
+        :return: The Pathway object
+        """
+        cursor.execute("""
+            SELECT name, smpdb_id, kegg_map_id FROM pathway WHERE id = ?
+        """, (pathway_id,))
+        row = cursor.fetchone()
+        return cls(**row)
+
+
     def toDB(self, cursor):
         """
         Save the pathway to the database.

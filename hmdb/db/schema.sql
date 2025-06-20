@@ -33,8 +33,7 @@ CREATE TABLE metabolite (
     wikipedia_id TEXT,
     metlin_id TEXT,
     vmh_id TEXT,
-    fbonto_id TEXT,
-
+    fbonto_id TEXT
 );
 
 CREATE TABLE secondary_accession (

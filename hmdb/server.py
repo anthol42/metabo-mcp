@@ -15,7 +15,7 @@ SEARCH_TYPES = Literal[
 mcp = FastMCP("HMDB")
 
 @mcp.tool()
-def search(query: str, search_in: SEARCH_TYPES = 'all', regex: bool = False, page: int = 0) -> str:
+async def search(query: str, search_in: SEARCH_TYPES = 'all', regex: bool = False, page: int = 0) -> str:
     """
     Search for metabolites in the HMDB databases based on a query string. You can refine the search by specifying the
     field to search in. It will return a string representing a csv of the results with the name of the match and some
@@ -65,7 +65,7 @@ def search(query: str, search_in: SEARCH_TYPES = 'all', regex: bool = False, pag
 
 
 @mcp.tool()
-def get(accession: str,
+async def get(accession: str,
         field: Literal['all', 'description', 'taxonomy',
         'properties', 'concentrations', 'protein_associations'] = 'description') -> str:
     """

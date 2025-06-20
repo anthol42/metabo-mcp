@@ -4,6 +4,8 @@ from server_utils import GetCursor, search_all, search_field, escape_like_specia
 import pandas as pd
 import json
 from mcp.server.fastmcp import FastMCP
+from pathlib import Path
+import os
 
 SEARCH_TYPES = Literal[
     'all', 'name', 'chemical_formula', 'iupac_name', 'inchikey', 'smiles',
@@ -140,5 +142,6 @@ def get(accession: str,
         raise ValueError(f"Invalid field: {field}. Must be one of 'all', 'description', 'taxonomy', 'properties', "
                          f"'concentrations', 'protein_associations'.")
 if __name__ == '__main__':
-    print("Starting LIPID MAPS MCP server...")
+    root = Path(__file__).parent
+    os.chdir(root)
     mcp.run(transport='stdio')

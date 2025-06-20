@@ -30,6 +30,8 @@ class Concentration:
             if data[field] is None:
                 patient_field = field.replace("subject_", "patient_")
                 data[field] = elem.findtext(patient_field)
+        if elem.find("patient_information"):
+            data["subject_condition"] = elem.findtext("patient_information")
         # # Handle reference
         # reference_elem = elem.find('references')
         # if reference_elem is not None:
@@ -68,11 +70,11 @@ class Concentration:
         # Retrieve the last inserted ID
         return cursor.lastrowid
 
-def make_concentration_dataframe(concentrations: List[Concentration]) -> pd.DataFrame:
+def make_concentration_dataframe(concentrations: List[Concentration]) -> str:
     """
     Convert a list of Concentration objects to a pandas DataFrame.
     :param concentrations: List of Concentration objects
     :return: A pandas DataFrame containing the concentration data
     """
     data = [concentration.to_pandas() for concentration in concentrations]
-    return pd.DataFrame(data)
+    return pd.DataFrame(data).to_csv(index=False)

@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field, fields
+from dataclasses import dataclass, field, fields, asdict
 from typing import Optional, Union, Dict, Tuple, List
 
 @dataclass
@@ -80,3 +80,9 @@ class Taxonomy:
         if self.substituents:
             cursor.executemany("INSERT INTO taxonomy_substituent (accession, substituent) VALUES (?, ?)",
                                [(accession, subs) for subs in self.substituents])
+    def todict(self) -> dict:
+        """
+        Convert the Taxonomy object to a dictionary.
+        :return: Dictionary representation of the Taxonomy object
+        """
+        return asdict(self)

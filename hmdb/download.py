@@ -94,12 +94,17 @@ if __name__ == "__main__":
             metabolite = Metabolite.FromXML(elem)
             metabolites.append(metabolite)
             metabolite.toDB("db/hmdb.db")  # Save to database
-            elem.clear()  # Free memory
-            metabolite_db = Metabolite.FromDB("db/hmdb.db", metabolite.accession)
-            if metabolite_db.biological_properties != metabolite.biological_properties:
-                print(metabolite.accession) # To add space
-                # pprint(dataclass_diff(metabolite_db.biological_properties, metabolite.biological_properties))
-                break
+            elem.clear()  # Free            # metabolite_db = Metabolite.FromDB("db/hmdb.db", metabolite.accession)
+            # if metabolite_db.biological_properties != metabolite.biological_properties:
+            #     print(metabolite.accession) # To add space
+            #     break
+            #
+            # # To speed up the checking process, we can delete the database once in a while
+            # if len(metabolites) % 5_000 == 0:
+            #     os.remove("db/hmdb.db")
+            #     # Create the database schema again
+            #     create_db("db/hmdb.db") memory
+
             prg.update(len(metabolites))
 
     print(len(metabolites))

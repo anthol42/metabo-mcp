@@ -1,9 +1,9 @@
-from dataclasses import dataclass, field, fields
+from dataclasses import dataclass, field, fields, asdict
 from typing import Optional, Union, Dict, Tuple, List, Any
 from xml.etree import ElementTree as ET
 
 from .biological_properties import BiologicalProperties
-from .concentration import Concentration, make_concentration_dataframe
+from .concentration import Concentration
 from .taxonomy import Taxonomy
 from .protein import Protein
 
@@ -101,7 +101,6 @@ class Metabolite(DBClass):
 
     @classmethod
     def FromDB(cls, db_path: str, accession: str) -> "Metabolite":
-        data = {}
         with cls.cursor_as_dict(db_path) as cursor:
             # Fetch the metabolite data
             cursor.execute("""
@@ -242,6 +241,8 @@ class Metabolite(DBClass):
             # List nested objects
             self._add_concentrations_db(cursor)
             self._add_protein_associations_db(cursor)
+    def todict(self):
+        return asdict(self)
 
     def _add_secondary_accessions_db(self, cursor):
         """

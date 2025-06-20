@@ -3,12 +3,16 @@ from typing import Literal
 from server_utils import GetCursor, search_all, search_field, escape_like_specials
 import pandas as pd
 import json
+from mcp.server.fastmcp import FastMCP
 
 SEARCH_TYPES = Literal[
     'all', 'name', 'chemical_formula', 'iupac_name', 'inchikey', 'smiles',
     'drugbank_id', 'foodb_id', 'pubchem_compound_id', 'chebi_id', 'kegg_id',
     'wikipedia_name',
 ]
+mcp = FastMCP("HMDB")
+
+@mcp.tool()
 def search(query: str, search_in: SEARCH_TYPES = 'all', regex: bool = False, page: int = 0) -> str:
     """
     Search for metabolites in the HMDB databases based on a query string. You can refine the search by specifying the
@@ -30,7 +34,7 @@ def search(query: str, search_in: SEARCH_TYPES = 'all', regex: bool = False, pag
                 cursor.execute(command, (query, query, query, query, query, query, query, query, query, query, query))
             else:
                 cursor.execute(command, (query, query, query, query, query, query, query, query, query,
-                                         f"%{escape_like_specials(query)}%", f"%{escape_like_specials(raw_query)}%"))
+                                         f"%{escape_like_specials(query)}%", f"%{escape_like_specials(query)}%"))
         else:
             command = search_field(field=search_in, regex=regex)
             if regex:
@@ -58,6 +62,7 @@ def search(query: str, search_in: SEARCH_TYPES = 'all', regex: bool = False, pag
         return csv_result.strip()
 
 
+@mcp.tool()
 def get(accession: str,
         field: Literal['all', 'description', 'taxonomy',
         'properties', 'concentrations', 'protein_associations'] = 'description') -> str:
@@ -135,9 +140,5 @@ def get(accession: str,
         raise ValueError(f"Invalid field: {field}. Must be one of 'all', 'description', 'taxonomy', 'properties', "
                          f"'concentrations', 'protein_associations'.")
 if __name__ == '__main__':
-    from pprint import pprint
-    # metabolite = Metabolite.FromDB("db/hmdb.db", "HMDB0000002")
-    # pprint(metabolite)
-
-    print(search("proline bet", search_in="name", regex=False, page=0))
-    print(get("HMDB0004827", field="concentrations"))
+    print("Starting LIPID MAPS MCP server...")
+    mcp.run(transport='stdio')

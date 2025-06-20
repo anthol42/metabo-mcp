@@ -68,6 +68,9 @@ class Metabolite(DBClass):
                  for field in fields(cls)
                  if (field.type == str or field.type == float or field.type == Optional[str] or field.type == Optional[float])
                  and xml_element.find(field.name) is not None}
+        data["average_molecular_weight"] = float(data["average_molecular_weight"]) if data.get("average_molecular_weight") else None
+        data["monisotopic_molecular_weight"] = float(data["monisotopic_molecular_weight"]) if data.get("average_molecular_weight") else None
+
         # Step 2: Extract List fields
         if xml_element.find("secondary_accessions"):
             data["secondary_accessions"] = [elem.text for elem in xml_element.find("secondary_accessions")]

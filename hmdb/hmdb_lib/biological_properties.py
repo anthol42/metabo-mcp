@@ -28,12 +28,21 @@ class BiologicalProperties:
         tissue_locations = [loc.text for loc in elem.find('tissue_locations')]
         # Handle pathways
         pathways = [Pathway.FromXML(pathway_elem) for pathway_elem in elem.find('pathways')]
+        # Remove duplicates
+        pathways_str = set()
+        pathways_nodup = []
+        for pathway in pathways:
+            if str(pathway) in pathways_str:
+                continue
+            pathways_str.add(str(pathway))
+            pathways_nodup.append(pathway)
+        pathways_nodup.sort(key=lambda pathway: str(pathway))
 
         return cls(
             cellular_locations=cellular_locations,
             biospecimen_locations=biospecimen_locations,
             tissue_locations=tissue_locations,
-            pathways=pathways
+            pathways=pathways_nodup
         )
 
     @classmethod
@@ -63,6 +72,7 @@ class BiologicalProperties:
             SELECT pathway_id FROM metabolite_pathway WHERE metabolite_accession = ?
         """, (accession,))
         pathways = [Pathway.FromDB(cursor, row["pathway_id"]) for row in cursor.fetchall()]
+        pathways.sort(key=lambda pathway: str(pathway))
 
         return cls(
             cellular_locations=cellular_locations,

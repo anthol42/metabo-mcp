@@ -7,6 +7,7 @@ from lxml import etree as ET
 from typing import Union
 from hmdb_lib import Metabolite
 from db.db_format import create_db
+from dataclasses import fields
 
 def read_xml(path: Union[str, Path]):
     tree = ET.parse(path)
@@ -61,8 +62,23 @@ def count_metabolites_simple_text(filename):
             count += line.count('<metabolite')
     return count
 
+def dataclass_diff(obj1, obj2):
+    if type(obj1) != type(obj2):
+        raise ValueError("Objects must be of the same type")
+
+    diffs = {}
+    for field in fields(obj1):
+        name = field.name
+        val1 = getattr(obj1, name)
+        val2 = getattr(obj2, name)
+        if val1 != val2:
+            diffs[name] = (val1, val2)
+
+    return diffs
+
 if __name__ == "__main__":
     from xml.etree import ElementTree as ET
+    from pprint import pprint
     filename = download_hmdb_data()
     metabolites = []
     total_metabolites = count_metabolites_simple_text(filename)
@@ -79,9 +95,11 @@ if __name__ == "__main__":
             metabolites.append(metabolite)
             metabolite.toDB("db/hmdb.db")  # Save to database
             elem.clear()  # Free memory
-            metabolite_db = Metabolite.FromDB("db/hmdb.db")
-            if metabolite_db != metabolite:
-                print("Metabolite database mismatch.")
+            metabolite_db = Metabolite.FromDB("db/hmdb.db", metabolite.accession)
+            if metabolite_db.biological_properties != metabolite.biological_properties:
+                print(metabolite.accession) # To add space
+                # pprint(dataclass_diff(metabolite_db.biological_properties, metabolite.biological_properties))
+                break
             prg.update(len(metabolites))
 
     print(len(metabolites))

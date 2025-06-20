@@ -2,9 +2,10 @@
 File to parse concentration data from HMDB and convert it to a pandas DataFrame.
 """
 from dataclasses import dataclass, field, fields
-from typing import Optional, Union, Dict, Tuple, List
+from typing import Optional, Union, Dict, Tuple, List, Literal
 import pandas as pd
 from xml.etree import ElementTree
+
 
 @dataclass
 class Concentration:
@@ -38,6 +39,29 @@ class Concentration:
         :return:
         """
         return {field.name: getattr(self, field.name) for field in fields(self) if field.name != 'references'}
+
+    def toDB(self, cursor, metabolite_accession, type: Literal['normal', 'abnormal']) -> int:
+        """
+        Insert the concentration data into the database.
+        :param cursor: Database cursor
+        :return: The ID of the inserted concentration
+        """
+        cursor.execute("""
+                       INSERT INTO concentration (metabolite_accession, type, biospecimen, concentration_value, 
+                                                   concentration_units, subject_age, subject_sex, subject_condition)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                               """, (
+            metabolite_accession,
+            type,
+            self.biospecimen,
+            self.concentration_value,
+            self.concentration_units,
+            self.subject_age,
+            self.subject_sex,
+            self.subject_condition
+        ))
+        # Retrieve the last inserted ID
+        return cursor.lastrowid
 
 def make_concentration_dataframe(concentrations: List[Concentration]) -> pd.DataFrame:
     """

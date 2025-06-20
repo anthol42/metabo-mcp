@@ -38,7 +38,7 @@ CREATE TABLE metabolite (
 
 CREATE TABLE secondary_accession (
     metabolite_accession TEXT NOT NULL,
-    accession TEXT NOT NULL,
+    secondary_accession TEXT NOT NULL,
     FOREIGN KEY (metabolite_accession)
         REFERENCES metabolite(accession)
 );
@@ -54,14 +54,16 @@ CREATE TABLE experimental_property (
     property_key         TEXT NOT NULL,
     property_value       TEXT,
 
-    FOREIGN KEY (metabolite_accession) REFERENCES metabolite(accession)
+    FOREIGN KEY (metabolite_accession) REFERENCES metabolite(accession),
+    UNIQUE (metabolite_accession, property_key)
 );
 CREATE TABLE predicted_property (
     metabolite_accession TEXT NOT NULL,
     property_key         TEXT NOT NULL,
     property_value       TEXT,
 
-    FOREIGN KEY (metabolite_accession) REFERENCES metabolite(accession)
+    FOREIGN KEY (metabolite_accession) REFERENCES metabolite(accession),
+    UNIQUE (metabolite_accession, property_key)
 );
 
 -- Taxonomy class
@@ -143,28 +145,16 @@ CREATE TABLE concentration (
 
     FOREIGN KEY (metabolite_accession) REFERENCES metabolite(accession)
 );
-CREATE TABLE concentration_reference (
-    concentration_id INTEGER NOT NULL,
-    reference        TEXT NOT NULL,
-
-    FOREIGN KEY (concentration_id) REFERENCES concentration(id)
-);
 
 -- Protein class
 CREATE TABLE protein (
-    protein_accession TEXT PRIMARY KEY,  -- HMDB protein accession
+    protein_accession TEXT,  -- HMDB protein accession
+    metabolite_accession TEXT NOT NULL,  -- FK to metabolite.accession
 
     name              TEXT,              -- Common name
     uniprot_id        TEXT,              -- UniProt ID
     gene_name         TEXT,              -- Gene name
-    protein_type      TEXT               -- Protein type
-);
-CREATE TABLE metabolite_protein (
-    metabolite_accession TEXT NOT NULL,
-    protein_accession    TEXT NOT NULL,
-
-    PRIMARY KEY (metabolite_accession, protein_accession),
-
+    protein_type      TEXT,              -- Protein type
     FOREIGN KEY (metabolite_accession) REFERENCES metabolite(accession),
-    FOREIGN KEY (protein_accession) REFERENCES protein(protein_accession)
+    PRIMARY KEY (protein_accession, metabolite_accession)  -- Composite primary key
 );

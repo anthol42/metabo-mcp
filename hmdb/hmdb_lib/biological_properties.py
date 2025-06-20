@@ -35,3 +35,37 @@ class BiologicalProperties:
             tissue_locations=tissue_locations,
             pathways=pathways
         )
+
+    def toDB(self, cursor, accession: str):
+        """
+        Save the biological properties to the database.
+        :param cursor: Database cursor
+        :param accession: Accession number of the metabolite
+        """
+        if self.cellular_locations:
+            cursor.executemany("""
+                INSERT INTO cellular_location (metabolite_accession, location)
+                VALUES (?, ?)
+            """, [(accession, loc) for loc in self.cellular_locations])
+
+        if self.biospecimen_locations:
+            cursor.executemany("""
+                INSERT INTO biospecimen_location (metabolite_accession, location)
+                VALUES (?, ?)
+            """, [(accession, loc) for loc in self.biospecimen_locations])
+
+        if self.tissue_locations:
+            cursor.executemany("""
+                INSERT INTO tissue_location (metabolite_accession, location)
+                VALUES (?, ?)
+            """, [(accession, loc) for loc in self.tissue_locations])
+
+        if self.pathways:
+            pathway_ids = [pathway.toDB(cursor) for pathway in self.pathways]
+             # remove duplicates from pathway_ids
+            pathway_ids = list(set(pathway_ids))
+            cursor.executemany("""
+                INSERT INTO metabolite_pathway (metabolite_accession, pathway_id)
+                VALUES (?, ?)
+            """, [(accession, pathway_id) for pathway_id in pathway_ids])
+

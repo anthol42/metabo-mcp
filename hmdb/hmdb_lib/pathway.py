@@ -22,3 +22,25 @@ class Pathway:
         data = {field.name: elem.findtext(field.name) for field in fields(cls)}
 
         return cls(**data)
+
+    def toDB(self, cursor):
+        """
+        Save the pathway to the database.
+        :param cursor: Database cursor
+        :param accession: Accession number of the metabolite
+        """
+        # Check if smpdb_id, kegg_map_id does not exist in the database
+        cursor.execute("""
+            SELECT id FROM pathway WHERE smpdb_id = ? AND kegg_map_id = ?
+        """, (self.smpdb_id, self.kegg_map_id))
+        existing_id = cursor.fetchone()
+        if existing_id:
+            return existing_id[0]
+
+        # Otherwise, insert the new pathway
+        cursor.execute("""
+            INSERT INTO pathway (name, smpdb_id, kegg_map_id)
+            VALUES (?, ?, ?)
+        """, (self.name, self.smpdb_id, self.kegg_map_id))
+
+        return cursor.lastrowid

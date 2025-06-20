@@ -6,6 +6,7 @@ import zipfile
 from lxml import etree as ET
 from typing import Union
 from hmdb_lib import Metabolite
+from db.db_format import create_db
 
 def read_xml(path: Union[str, Path]):
     tree = ET.parse(path)
@@ -65,12 +66,18 @@ if __name__ == "__main__":
     filename = download_hmdb_data()
     metabolites = []
     total_metabolites = count_metabolites_simple_text(filename)
+    if os.path.exists("db/hmdb.db"):
+        os.remove("db/hmdb.db")
+    create_db("db/hmdb.db")  # Create the database schema
+
     # Process elements one at a time without loading everything
     prg = progress(total=total_metabolites, desc="Downloading metabolites")
     for event, elem in ET.iterparse(filename, events=('start', 'end')):
         if event == 'end' and elem.tag.split('}')[-1] == 'metabolite':
             strip_namespace(elem)
-            metabolites.append(Metabolite.FromXML(elem))
+            metabolite = Metabolite.FromXML(elem)
+            metabolites.append(metabolite)
+            metabolite.toDB("db/hmdb.db")  # Save to database
             elem.clear()  # Free memory
             prg.update(len(metabolites))
 

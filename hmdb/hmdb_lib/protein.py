@@ -24,3 +24,19 @@ class Protein:
         data = {field.name: elem.findtext(field.name) for field in fields(cls)}
 
         return cls(**data)
+
+    def toDB(self, cursor, metabolite_accession):
+        """
+        Save the Protein object to the database.
+        :param cursor: Database cursor
+        :param metabolite_accession: The accession number of the associated metabolite
+        """
+        cursor.execute("""
+            INSERT INTO protein (protein_accession, metabolite_accession, name, uniprot_id, gene_name, protein_type)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (self.protein_accession,
+              metabolite_accession,
+              self.name,
+              self.uniprot_id,
+              self.gene_name,
+              self.protein_type))

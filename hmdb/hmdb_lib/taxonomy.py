@@ -33,3 +33,26 @@ class Taxonomy:
         data["cls"] = elem.findtext("class")
 
         return cls(**data)
+
+    def toDB(self, cursor, accession: str):
+        """
+        Store the taxonomy data in the database.
+        :param cursor: Database cursor
+        :param accession: Accession number of the metabolite
+        """
+        cursor.execute("""
+            INSERT INTO taxonomy (accession, description, direct_parent, kingdom, super_class, cls, sub_class, 
+                                  molecular_framework)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+            (accession, self.description, self.direct_parent, self.kingdom, self.super_class, self.cls,
+             self.sub_class, self.molecular_framework)
+        )
+
+        tax_id = cursor.lastrowid
+        if self.alternative_parents:
+            cursor.executemany("INSERT INTO taxonomy_alternative_parent (taxonomy_id, alt_parent) VALUES (?, ?)",
+                               [(tax_id, parent) for parent in self.alternative_parents])
+
+        if self.substituents:
+            cursor.executemany("INSERT INTO taxonomy_substituent (taxonomy_id, substituent) VALUES (?, ?)",
+                               [(tax_id, subs) for subs in self.substituents])

@@ -7,9 +7,11 @@ from .concentration import Concentration, make_concentration_dataframe
 from .taxonomy import Taxonomy
 from .protein import Protein
 
+from db.dbclass import DBClass
+
 
 @dataclass
-class Metabolite:
+class Metabolite(DBClass):
     """
     Represents a metabolite in the HMDB database.
     """
@@ -62,10 +64,10 @@ class Metabolite:
     @classmethod
     def FromXML(cls, xml_element: ET.Element) -> "Metabolite":
         # Step 1: Extract all scalar fields
-        data  = {field.name: xml_element.findtext(field.name)
+        data  = {field.name: xml_element.find(field.name).text
                  for field in fields(cls)
-                 if (field.type == str or field.type == float) and xml_element.findtext(field.name) is not None}
-
+                 if (field.type == str or field.type == float or field.type == Optional[str] or field.type == Optional[float])
+                 and xml_element.find(field.name) is not None}
         # Step 2: Extract List fields
         if xml_element.find("secondary_accessions"):
             data["secondary_accessions"] = [elem.text for elem in xml_element.find("secondary_accessions")]
@@ -93,6 +95,138 @@ class Metabolite:
             for elem in xml_element:
                 print(elem.tag, elem.text)
         return cls(**data)
+
+    def toDB(self, db_path: str) -> bool:
+        """
+        Save the metabolite to the database.
+        :param db_path: Path to the database file
+        :return: True if successful, False otherwise
+        """
+        with self.cursor(db_path) as cursor:
+            # Insert or update the metabolite in the database
+            cursor.execute("""
+                INSERT OR REPLACE INTO metabolite (accession, version, creation_date, update_date, status,
+                                                    name, description, chemical_formula, average_molecular_weight,
+                                                    monisotopic_molecular_weight, iupac_name, traditional_iupac,
+                                                    smiles, inchi, inchikey, chemspider_id, drugbank_id,
+                                                    foodb_id, pubchem_compound_id, pdb_id, chebi_id,
+                                                    phenol_explorer_compound_id, knapsack_id, kegg_id,
+                                                    biocyc_id, bigg_id, wikipedia_id, metlin_id,
+                                                    vmh_id, fbonto_id)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                """, (
+                self.accession,
+                self.version,
+                self.creation_date,
+                self.update_date,
+                self.status,
+                self.name,
+                self.description,
+                self.chemical_formula,
+                self.average_molecular_weight,
+                self.monisotopic_molecular_weight,
+                self.iupac_name,
+                self.traditional_iupac,
+                self.smiles,
+                self.inchi,
+                self.inchikey,
+                self.chemspider_id,
+                self.drugbank_id,
+                self.foodb_id,
+                self.pubchem_compound_id,
+                self.pdb_id,
+                self.chebi_id,
+                self.phenol_explorer_compound_id,
+                self.knapsack_id,
+                self.kegg_id,
+                self.biocyc_id,
+                self.bigg_id,
+                self.wikipedia_id,
+                self.metlin_id,
+                self.vmh_id,
+                self.fbonto_id
+            ))
+            # Add vector data
+            self._add_secondary_accessions_db(cursor)
+            self._add_synonyms_db(cursor)
+
+            # Add dict data
+            self._add_experimental_properties_db(cursor)
+            self._add_predicted_properties_db(cursor)
+
+            # Add nested objects
+            if self.taxonomy:
+                self.taxonomy.toDB(cursor, self.accession)
+            if self.biological_properties:
+                self.biological_properties.toDB(cursor, self.accession)
+
+            # List nested objects
+            self._add_concentrations_db(cursor)
+            self._add_protein_associations_db(cursor)
+
+    def _add_secondary_accessions_db(self, cursor):
+        """
+        Add secondary accessions to the database.
+        :param cursor: Database cursor
+        """
+        # With execute many, we can insert multiple rows at once
+        if self.secondary_accessions:
+            cursor.executemany("""
+                INSERT INTO secondary_accession (metabolite_accession, secondary_accession)
+                VALUES (?, ?)
+            """, [(self.accession, sec_acc) for sec_acc in self.secondary_accessions])
+
+    def _add_synonyms_db(self, cursor):
+        """
+        Add synonyms to the database.
+        :param cursor: Database cursor
+        """
+        # With execute many, we can insert multiple rows at once
+        if self.synonyms:
+            cursor.executemany("""
+                INSERT INTO synonym (metabolite_accession, synonym)
+                VALUES (?, ?)
+            """, [(self.accession, syn) for syn in self.synonyms])
+
+    def _add_experimental_properties_db(self, cursor):
+        """
+        Add experimental properties to the database.
+        :param cursor: Database cursor
+        """
+        if self.experimental_properties:
+            cursor.executemany("""
+                INSERT INTO experimental_property (metabolite_accession, property_key, property_value)
+                VALUES (?, ?, ?)
+            """, [(self.accession, key, value) for key, value in self.experimental_properties.items()])
+
+    def _add_predicted_properties_db(self, cursor):
+        """
+        Add predicted properties to the database.
+        :param cursor: Database cursor
+        """
+        if self.predicted_properties:
+            cursor.executemany("""
+                INSERT INTO predicted_property (metabolite_accession, property_key, property_value)
+                VALUES (?, ?, ?)
+            """, [(self.accession, key, value) for key, value in self.predicted_properties.items()])
+
+    def _add_concentrations_db(self, cursor):
+        """
+        Add normal concentrations to the database.
+        :param cursor: Database cursor
+        """
+        if self.normal_concentrations:
+            conc_ids = [conc.toDB(cursor, self.accession, 'normal') for conc in self.normal_concentrations]
+        if self.abnormal_concentrations:
+            conc_ids = [conc.toDB(cursor, self.accession, 'abnormal') for conc in self.abnormal_concentrations]
+
+    def _add_protein_associations_db(self, cursor):
+        """
+        Add protein associations to the database.
+        :param cursor: Database cursor
+        """
+        if self.protein_associations:
+            [protein.toDB(cursor, self.accession) for protein in self.protein_associations]
 
 def strip_namespace(elem):
     for el in elem.iter():

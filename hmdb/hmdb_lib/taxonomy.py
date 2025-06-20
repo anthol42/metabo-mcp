@@ -26,9 +26,9 @@ class Taxonomy:
         if elem is None:
             return cls()
         data = {field.name: elem.findtext(field.name) for field in fields(cls)}
-        if elem.find('alternative_parents'):
+        if elem.find('alternative_parents') is not None:
             data['alternative_parents'] = [ap.text for ap in elem.find('alternative_parents')]
-        if elem.find('substituents'):
+        if elem.find('substituents') is not None:
             data['substituents'] = [s.text for s in elem.find('substituents')]
         data["cls"] = elem.findtext("class")
 

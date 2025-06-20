@@ -45,7 +45,6 @@ def download_hmdb_data(load_cache: bool = True) -> Path:
     with zipfile.ZipFile(hmdb_path / "hmdb_metabolites.zip", 'r') as zip_ref:
         zip_ref.extractall(hmdb_path)
 
-    print("Reading HMDB data...")
     return hmdb_path / "hmdb_metabolites.xml"
 
 def strip_namespace(elem):
@@ -75,6 +74,45 @@ def dataclass_diff(obj1, obj2):
             diffs[name] = (val1, val2)
 
     return diffs
+
+def make_sql_db(filename: Union[str, Path], load_cache: bool = True):
+    """
+    Create if not exists the database schema for HMDB metabolite data and fill the database with the data from the xml
+    file.
+    :param filename:     HMDB metabolite xml filename
+    :param load_cache: If false and the database already exists, it will be deleted and recreated.
+    :return: None
+    """
+    # We will work with absolute paths so it works in any directory
+    root = Path(__file__).parent
+    print("Counting metabolites")
+    total_metabolites = count_metabolites_simple_text(filename)
+    if os.path.exists(f"{root}/db/hmdb.db") and load_cache:
+        return
+    if os.path.exists(f"{root}/db/hmdb.db") and not load_cache:
+        os.remove(f"{root}/db/hmdb.db")
+
+    create_db(f"{root}/db/hmdb.db")  # Create the database schema
+    prg = progress(total=total_metabolites, desc="Parsing metabolites")
+    count = 0
+    for event, elem in ET.iterparse(filename, events=('start', 'end')):
+        if event == 'end' and elem.tag.split('}')[-1] == 'metabolite':
+            strip_namespace(elem)
+            metabolite = Metabolite.FromXML(elem)
+            metabolite.toDB(f"{root}/db/hmdb.db")  # Save to database
+            elem.clear()
+
+            count += 1
+            prg.update(count)
+
+def install_hmdb_db(load_cache: bool = True):
+    """
+    Install the HMDB database by downloading the data, creating the database schema and filling it with the data.
+    :param load_cache: If the data or database exists, nothing will be done. Otherwise, it will ignore and overwrite.
+    :return: None
+    """
+    filename = download_hmdb_data(load_cache=load_cache)
+    make_sql_db(filename, load_cache=load_cache)
 
 if __name__ == "__main__":
     from xml.etree import ElementTree as ET

@@ -72,21 +72,21 @@ class Metabolite(DBClass):
         data["monisotopic_molecular_weight"] = float(data["monisotopic_molecular_weight"]) if data.get("average_molecular_weight") else None
 
         # Step 2: Extract List fields
-        if xml_element.find("secondary_accessions"):
+        if xml_element.find("secondary_accessions") is not None:
             data["secondary_accessions"] = [elem.text for elem in xml_element.find("secondary_accessions")]
-        if xml_element.find("synonyms"):
+        if xml_element.find("synonyms") is not None:
             data["synonyms"] = [elem.text for elem in xml_element.find("synonyms")]
-        if xml_element.find("normal_concentrations"):
+        if xml_element.find("normal_concentrations") is not None:
             data["normal_concentrations"] = [Concentration.FromXML(elem) for elem in xml_element.find("normal_concentrations")]
-        if xml_element.find("abnormal_concentrations"):
+        if xml_element.find("abnormal_concentrations") is not None:
             data["abnormal_concentrations"] = [Concentration.FromXML(elem) for elem in xml_element.find("abnormal_concentrations")]
-        if xml_element.find("protein_associations"):
+        if xml_element.find("protein_associations") is not None:
             data["protein_associations"] = [Protein.FromXML(elem) for elem in xml_element.find("protein_associations")]
 
         # Step 3: Extract nested dict
-        if xml_element.find("experimental_properties"):
+        if xml_element.find("experimental_properties") is not None:
             data["experimental_properties"] = {elem.find("kind").text:elem.find("value").text for elem in xml_element.find("experimental_properties")}
-        if xml_element.find("predicted_properties"):
+        if xml_element.find("predicted_properties") is not None:
             data["predicted_properties"] = {elem.find("kind").text:elem.find("value").text for elem in xml_element.find("predicted_properties")}
 
         # Step 4: Extract nested objects

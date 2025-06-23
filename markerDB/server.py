@@ -136,3 +136,6 @@ def search_chemicals_markerDB(compound_name: Optional[str] = None, hmdb_id: Opti
     csv_string += f"\n\nPage {page_number + 1} of {num_pages}\n"
 
     return csv_string
+
+if __name__ == "__main__":
+    mcp.run(transport='stdio')

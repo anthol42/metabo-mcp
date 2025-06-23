@@ -7,6 +7,7 @@ from pubmed.installer import PubMedInstaller
 from lipidmaps.installer import LipidMapsInstaller
 from kegg.installer import KeggInstaller
 from hmdb.installer import HMDBInstaller
+from markerDB.installer import MarkerDBInstaller
 
 # Make sure the server name [key] matches the directory name
 SERVERS2INSTALL = {
@@ -14,6 +15,7 @@ SERVERS2INSTALL = {
     "hmdb": HMDBInstaller(),
     "lipidmaps": LipidMapsInstaller(),
     "kegg": KeggInstaller(),
+    "markerDB": MarkerDBInstaller(),
 }
 
 

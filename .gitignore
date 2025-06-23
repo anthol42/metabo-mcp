@@ -198,3 +198,6 @@ hmdb.db
 .DS_Store
 
 .idea/
+
+tmp*
+dbs/

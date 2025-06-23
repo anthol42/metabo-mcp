@@ -15,7 +15,7 @@ SEARCH_TYPES = Literal[
 mcp = FastMCP("HMDB")
 
 @mcp.tool()
-async def search(query: str, search_in: SEARCH_TYPES = 'all', regex: bool = False, page: int = 0) -> str:
+async def search(query: str, search_in: SEARCH_TYPES = 'name', regex: bool = False, page: int = 0) -> str:
     """
     Search for metabolites in the HMDB databases based on a query string. You can refine the search by specifying the
     field to search in. It will return a string representing a csv of the results with the name of the match and some
@@ -72,6 +72,7 @@ async def get(accession: str,
     Get a detailed view of a metabolite based on its accession number (HMDB id). You can specify the field to retrieve
     to get less data. Usually, it returns a JSON string representing the metabolite data in a hierarchical format.
     However, the concentrations data is returned as a csv table.
+    IMPORTANT: PRIORITIZE A SPECIFIC FIELD TO AVOID OVERLOADING THE RESPONSE (AVOID 'ALL').
     :param accession: The HMDB accession number (HMDB ID) of the metabolite to retrieve.
     :param field: The field to retrieve. If 'all', it will return all the available data. Note that this might be a
     LOT of data, so it is preferable to specify the field you are interested in.

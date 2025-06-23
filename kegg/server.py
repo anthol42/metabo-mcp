@@ -3,7 +3,10 @@ from typing import Literal, Optional, Union
 from mcp.server.fastmcp import Image, FastMCP
 
 mcp = FastMCP("KEGG")
-DATABASES = Literal[
+BASE_URL = "https://rest.kegg.jp"
+
+@mcp.tool()
+def list_kegg(database: Literal[
     'pathway',
     'brite',
     'module',
@@ -23,13 +26,9 @@ DATABASES = Literal[
     'drug',
     'dgroup',
     'organism',
-    'hsa', # human organism
-    'mmu' # mouse organism
-]
-BASE_URL = "https://rest.kegg.jp"
-
-@mcp.tool()
-def list(database: DATABASES, option: Optional[str] = None):
+    'hsa',
+    'mmu'
+], option: Optional[str] = None):
     """
     Obtain an extensive list of entry identifiers and associated names from a KEGG database.
 
@@ -61,7 +60,29 @@ def list(database: DATABASES, option: Optional[str] = None):
     return response.text
 
 @mcp.tool()
-def find(database: DATABASES, query: str,
+def find_kegg(database: Literal[
+    'pathway',
+    'brite',
+    'module',
+    'ko',
+    'vg',
+    'vp',
+    'ag',
+    'genome',
+    'compound',
+    'glycan',
+    'reaction',
+    'rclass',
+    'enzyme',
+    'network',
+    'variant',
+    'disease',
+    'drug',
+    'dgroup',
+    'organism',
+    'hsa',
+    'mmu'
+], query: str,
          option: Optional[Literal['formula', 'exact_mass', 'mol_weight']] = None) -> str:
     """
     Find entries with matching query keyword or other query data in the specified KEGG database.
@@ -106,7 +127,7 @@ def find(database: DATABASES, query: str,
     return response.text
 
 @mcp.tool()
-def get(identifier: str, option: Optional[Literal[
+def get_kegg(identifier: str, option: Optional[Literal[
     'aaseq',
     'ntseq',
     'mol',
@@ -154,7 +175,7 @@ def get(identifier: str, option: Optional[Literal[
         return response.text
 
 @mcp.tool()
-def ddi(query: str) -> str:
+def ddi_kegg(query: str) -> str:
     """
     This operation searches against the KEGG drug interaction database, where drug-drug interactions designated as
     contraindication (CI) and precaution (P) in Japanese drug labels are extracted, standardized by KEGG

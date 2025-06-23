@@ -7,15 +7,14 @@ from mcp.server.fastmcp import FastMCP
 from pathlib import Path
 import os
 
-SEARCH_TYPES = Literal[
-    'all', 'name', 'chemical_formula', 'iupac_name', 'inchikey', 'smiles',
-    'drugbank_id', 'foodb_id', 'pubchem_compound_id', 'chebi_id', 'kegg_id',
-    'wikipedia_name',
-]
 mcp = FastMCP("HMDB")
 
 @mcp.tool()
-async def search(query: str, search_in: SEARCH_TYPES = 'name', regex: bool = False, page: int = 0) -> str:
+async def search_hmdb(query: str, search_in: Literal[
+    'all', 'name', 'chemical_formula', 'iupac_name', 'inchikey', 'smiles',
+    'drugbank_id', 'foodb_id', 'pubchem_compound_id', 'chebi_id', 'kegg_id',
+    'wikipedia_name',
+] = 'name', regex: bool = False, page: int = 0) -> str:
     """
     Search for metabolites in the HMDB databases based on a query string. You can refine the search by specifying the
     field to search in. It will return a string representing a csv of the results with the name of the match and some
@@ -65,7 +64,7 @@ async def search(query: str, search_in: SEARCH_TYPES = 'name', regex: bool = Fal
 
 
 @mcp.tool()
-async def get(accession: str,
+async def get_hmdb(accession: str,
         field: Literal['all', 'description', 'taxonomy',
         'properties', 'concentrations', 'protein_associations'] = 'description') -> str:
     """

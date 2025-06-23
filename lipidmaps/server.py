@@ -22,7 +22,7 @@ def _condense(match: dict) -> dict:
     }
 
 @mcp.tool()
-def search(name: str) -> str:
+def search_lipidmaps(name: str) -> str:
     """
     Search for compounds in the LipidMaps database using a query string.
     If there are too much results, they will be returned in a compact format. This means it will return only:

@@ -196,3 +196,5 @@ cython_debug/
 hmdb.db
 
 .DS_Store
+
+.idea/

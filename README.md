@@ -2,7 +2,7 @@
 This package contains multiple MCP servers that allows LLMs to access databases essential for metabolomics research.
 
 ## Installation
-This is the installation steps for Claude Desktop. Make sure you have installed it before [Claude Desktop](https://claude.ai/download)\
+This is the installation steps for Claude Desktop. Make sure you have installed it before [Claude Desktop](https://claude.ai/download)
 1. Clone the repository:
 ```bash
 git clone https://github.com/anthol42/metabo-mcp.git

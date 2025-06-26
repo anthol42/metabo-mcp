@@ -9,6 +9,7 @@ from kegg.installer import KeggInstaller
 from hmdb.installer import HMDBInstaller
 from markerDB.installer import MarkerDBInstaller
 from pubchem.installer import PubChemInstaller
+from pathbank.installer import PathBankInstaller
 
 # Make sure the server name [key] matches the directory name
 SERVERS2INSTALL = {
@@ -18,6 +19,7 @@ SERVERS2INSTALL = {
     "kegg": KeggInstaller(),
     "markerDB": MarkerDBInstaller(),
     "pubchem": PubChemInstaller(),
+    "pathbank": PathBankInstaller()
 }
 
 

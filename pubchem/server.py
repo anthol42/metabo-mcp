@@ -1,11 +1,38 @@
 import math
-from typing import Literal
+from pathlib import PurePath
+from typing import Literal, List
 from mcp.server.fastmcp import FastMCP
 from client import PubChemClient
+from Bio import Entrez
+from dotenv import load_dotenv
+import os
 import json
+
+path = PurePath(__file__).parent.parent / "pubmed/.env"
+load_dotenv(dotenv_path=path)
+EMAIL = os.getenv("NCBI_EMAIL")
 
 mcp = FastMCP("PubChem")
 client = PubChemClient()
+
+def fetch_paper_titles(pmids: List[str]) -> List[str]:
+    """
+    Fetch the titles of papers given a list of PubMed IDs (PMIDs).
+    :param pmids: List of PubMed IDs.
+    :return: List of paper titles.
+    """
+    Entrez.email = EMAIL
+    with Entrez.efetch(db="pubmed", id=",".join(pmids), rettype="xml", retmode="xml") as handle:
+        articles = Entrez.read(handle)
+        titles = []
+        for article in articles.get("PubmedArticle", []):
+            try:
+                article_info = article["MedlineCitation"]["Article"]
+                title = article_info.get("ArticleTitle", "No title available")
+            except KeyError:
+                title = "No title available"
+            titles.append(title)
+        return titles
 
 @mcp.tool()
 async def search(search_domain: Literal['substance', 'compound'],
@@ -40,7 +67,8 @@ async def search(search_domain: Literal['substance', 'compound'],
             # Paginate the results
             start = page * 25
             end = start + 25
-            ids = [str(e) for e in ids[start:end]]
+            titles = fetch_paper_titles([str(e) for e in ids[start:end]])
+            ids = [f"{id_}: {title}" for id_, title in zip(ids[start:end], titles)]
 
             num_pages = math.ceil(len(ids) / 25)
             out += f"{'\n'.join(ids)}\nPage {page + 1} of {num_pages}\n"
@@ -51,4 +79,4 @@ async def search(search_domain: Literal['substance', 'compound'],
 if __name__ == "__main__":
     # Initialize and run the server
     mcp.run(transport='stdio')
-
+    # print(search('compound', 'cid', '2244', 'pubmed'))

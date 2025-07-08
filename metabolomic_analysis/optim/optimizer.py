@@ -109,6 +109,42 @@ class Optimizer:
         self.cv = cv
         self.param_grid = param_grid
         self.num_workers = num_workers # -1 means use all available cores
+        self.model = None
+
+    def fit(self, X: np.ndarray, y: np.ndarray, *, pairing_column_data: Optional[np.ndarray] = None,
+            timeout: Optional[int] = None, progress_cb: Optional[Callable[[int], None]] = None, model: Any = None) -> None:
+        """
+        Search for the best hyperparameters using Optuna, then train the model with the best hyperparameters.
+        After, the trained model is accessible from the `model` attribute.
+        :param X: The feature dataset as a numpy array.
+        :param y: The targets as a numpy array.
+        :param pairing_column_data: The pairing column data as a numpy array. Each pair must have a single unique int32 id.
+        :param timeout: The timeout in seconds for the optimization. If None, no timeout is applied.
+        :param progress_cb: A callback function to report progress. It should accept an integer argument representing
+        the number of trials completed. If None, no progress is reported.
+        :param model: The model to train. If provided, the hyperparameter search will be bypassed and the model will
+        be trained with the provided hyperparameters. If None, the model will be optimized using Optuna.
+        :return: None
+        """
+        if model is not None:
+            self.model = model
+            self.model.fit(X, y)
+        else:
+            hparams = self.optimize(X, y, pairing_column_data=pairing_column_data, timeout=timeout, progress_cb=progress_cb)
+            self.model = self.model_cls(**hparams)
+            self.model.fit(X, y)
+
+    def score(self, X: np.ndarray, y: np.ndarray) -> float:
+        """
+        Evaluate the trained model on the given dataset using the balanced accuracy score.
+        :param X: The feature dataset as a numpy array.
+        :param y: The targets as a numpy array.
+        :return: The balanced accuracy score of the model on the given dataset.
+        """
+        if self.model is None:
+            raise RuntimeError("Model is not trained yet. Please call `fit` method first.")
+        y_pred = self.model.predict(X)
+        return balanced_accuracy_score(y, y_pred)
 
     def optimize(self, X: np.ndarray, y: np.ndarray, *, pairing_column_data: Optional[np.ndarray] = None,
                  timeout: Optional[int] = None, progress_cb: Optional[Callable[[int], None]] = None) -> dict:

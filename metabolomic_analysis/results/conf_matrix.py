@@ -6,6 +6,23 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+def _rgb_to_luminance(rgb_color):
+    """Convert RGB to relative luminance with proper gamma correction"""
+
+    def gamma_correct(channel):
+        if channel <= 0.03928:
+            return channel / 12.92
+        else:
+            return ((channel + 0.055) / 1.055) ** 2.4
+
+    # Apply gamma correction to each channel
+    r_linear = gamma_correct(rgb_color[0])
+    g_linear = gamma_correct(rgb_color[1])
+    b_linear = gamma_correct(rgb_color[2])
+
+    # Calculate relative luminance (Rec. 709)
+    return 0.2126 * r_linear + 0.7152 * g_linear + 0.0722 * b_linear
+
 def plot_confusion_matrix(preds: List[np.ndarray], targets: List[np.ndarray], labels: Tuple[str, str]):
     """
     Plot a confusion matrix that is the agglomeration of each confusion matrix of each split. The aggregation used is
@@ -72,17 +89,28 @@ def plot_confusion_matrix(preds: List[np.ndarray], targets: List[np.ndarray], la
     for label in ax.get_yticklabels():
         label.set_fontweight('bold')
 
-    # Add custom annotations with both percentage and count
+    # Get the colormap
+    cmap = plt.cm.Blues
+
     for i in range(2):
         for j in range(2):
             count = aggregated_cm[i, j]
             percentage = normalized_cm[i, j]
-            # Use different colors for better contrast
-            text_color = 'white' if percentage > 50 else 'black'
+
+            # Get the actual RGB color from the colormap
+            normalized_value = percentage / 100.0  # Normalize to 0-1 for colormap
+            rgb_color = cmap(normalized_value)[:3]  # Get RGB values (exclude alpha)
+
+            # Calculate luminance using the standard formula
+            # This gives a better measure of perceived brightness
+            luminance = _rgb_to_luminance(rgb_color)
+
+            # Use white text for dark backgrounds (low luminance), black for light backgrounds
+            text_color = 'white' if luminance < 0.6 else 'black'
+
             ax.text(j + 0.5, i + 0.5, f'{percentage:.1f}%\n({count})',
                     ha='center', va='center', fontsize=10,
                     color=text_color)
-
     plt.title('Confusion Matrix (Aggregated across all splits)', fontsize=16, fontweight='bold', pad=20)
     plt.xlabel('Predicted Label', fontsize=13, fontweight='bold')
     plt.ylabel('True Label', fontsize=13, fontweight='bold')

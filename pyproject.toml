@@ -9,6 +9,7 @@ dependencies = [
     "biopython>=1.85",
     "lxml>=5.4.0",
     "mcp>=1.9.4",
+    "optuna>=4.4.0",
     "pandas>=2.3.0",
     "requests>=2.32.4",
     "sbmlnetwork>=0.5.9",

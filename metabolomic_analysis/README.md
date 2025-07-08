@@ -15,4 +15,3 @@ Pipeline that does (Inspired by MEDIC):
 4. Hyperparameter search using Cross Validation and bayesian optimization.
 5. Extract meaningful representation from results and make figures and tables
 6. Make a report
-

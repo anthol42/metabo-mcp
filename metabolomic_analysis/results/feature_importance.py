@@ -76,8 +76,62 @@ def feature_heatmap(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10
     # Show the plot
     plt.show()
 
-def feature_logplot(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10):
-    pass
+
+def feature_logplot(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10, figsize: tuple = None):
+    """
+    Make a horizontal bar plot of the top_n most important features across all models.
+    It normalizes its importance in percentage and plot them in log2 scale.
+    :param feature_importance: A dictionary where keys are model names and values are DataFrames with feature
+    importance. The DataFrame should have a column 'feature' with feature names and a column 'importance' with their
+    importance scores.
+    :param top_n: The top n features to sample in each model. Then, the top n remaining features are plot. This is done
+    in a 2 step filtering.
+    :param figsize: The size of the figure to plot. If None, the default size is used.
+    :return: None
+    """
+
+    # Step 1: Sample the top_n features from each model
+    all_top_features = set()
+    model_top_features = {}
+
+    for model_name, df in feature_importance.items():
+        # Sort by importance and get top_n features
+        top_features = df.nlargest(top_n, 'importance')
+        # Renormalize the top_features so that the sum to 1
+        top_features['importance'] = top_features['importance'] / top_features['importance'].sum()
+        model_top_features[model_name] = top_features
+        all_top_features.update(top_features['feature'].tolist())
+
+    # Step 2: Agglomerate all top features dataset by summing their importance
+    all_features_df = pd.DataFrame(columns=['feature', 'importance'])
+    for model_name, df in model_top_features.items():
+        all_features_df = pd.concat([all_features_df, df], ignore_index=True)
+    all_features_df = all_features_df.groupby('feature', as_index=False).sum()
+
+    # Step 3: Sample the top_n features from the agglomerated dataset
+    all_features_df = all_features_df.nlargest(top_n, 'importance')
+    all_features_df['importance'] = all_features_df['importance'] / all_features_df['importance'].sum()
+
+    # Step 4: Plot the features in log2 scale
+    figsize and plt.figure(figsize=figsize)
+    ax = sns.barplot(x='importance', y='feature', data=all_features_df)
+
+    # Add value labels at the left of each bar
+    for i, (idx, row) in enumerate(all_features_df.iterrows()):
+        # Get the bar width (importance value)
+        bar_width = row['importance']
+        # Position the text slightly to the left of the bar start
+        ax.text(bar_width * 1.07, i, f'{100*bar_width:.1f}%',
+                va='center', ha='right',
+                color='black', fontsize=10)
+
+    plt.xscale('log', base=2)
+    plt.xlim(None, all_features_df['importance'].max() * 1.1)
+    plt.xticks(ticks=[], labels=[])
+    plt.xlabel('Importance')
+    plt.ylabel('Feature')
+    plt.title(f'Top {top_n} features across all models', fontsize=14, pad=20)
+    plt.show()
 
 # Example usage:
 if __name__ == "__main__":
@@ -102,4 +156,4 @@ if __name__ == "__main__":
     }
 
     # Call the function
-    feature_heatmap(sample_data, top_n=2)
+    feature_logplot(sample_data, top_n=3)

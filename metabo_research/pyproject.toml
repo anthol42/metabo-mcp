@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "metabo-research"
+version = "0.0.0"
+description = "An workflow that searches for papers talking about a metabolite and a condition"
+readme = "README.md"
+authors = [
+    {name = "Anthony Lavertu", email = "anthony.lavertu.1@ulaval.ca"}
+]
+requires-python = ">=3.13"
+dependencies = [
+    "langchain[anthropic]>=0.3.26",
+    "langgraph>=0.5.2",
+    "langgraph-cli[inmem]>=0.3.4",
+    "python-dotenv>=1.1.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["agent"]

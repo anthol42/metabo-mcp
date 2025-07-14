@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pubmed import PubMedClient
 from pubchem import get_pubmed_ids
-from nodes import parallel_evaluation_node
+from nodes import parallel_evaluation_node, parallel_extraction_node
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
@@ -21,7 +21,13 @@ class State(TypedDict):
     query: str
     pmids: List[str]
     papers: List[Tuple[str, str]]
+
+    # For the evaluation node
     is_relevant: List[bool]
+
+    # For the extractor node
+    relevant_papers_text: List[tuple[str, str, str]]
+    extracted: List[str]
 
 def GetPubMedIdsNode(state: State) -> State:
     """
@@ -35,9 +41,7 @@ def GetPubMedIdsNode(state: State) -> State:
     if not pmids:
         raise ValueError(f"No PubMed IDs found for PubChem ID {pubchem_id}")
 
-    # Update state with the query and PubMed IDs
-    state["pmids"] = pmids
-    return state
+    return {"pmids": pmids}
 
 def GetPapersNode(state: State) -> State:
     """
@@ -50,8 +54,20 @@ def GetPapersNode(state: State) -> State:
     papers = [client.get_title_and_abstract(pmid) for pmid in progress(pmids)]
 
     # Update state with the query and papers
-    state["papers"] = papers
-    return state
+    return {"papers": papers}
+
+def FullTextNode(state: State) -> State:
+    """
+    Node that retrieves full text for papers that are deemed relevant.
+    """
+    client = PubMedClient()
+    relevant_papers = [paper for paper, relevant in zip(state["papers"], state["is_relevant"]) if relevant]
+    full_texts = [client.get_full_text(paper[0]) for paper in progress(relevant_papers, desc="Fetching full texts")]
+
+    return {"relevant_papers_text": [
+        (title, abstract, full_text)
+        for (title, abstract), full_text in zip(relevant_papers, full_texts)
+    ]}
 
 workflow_builder = StateGraph(State)
 
@@ -59,27 +75,37 @@ workflow_builder.add_node("GetPubMedIds", GetPubMedIdsNode)
 workflow_builder.set_entry_point("GetPubMedIds")
 workflow_builder.add_node("GetPapers", GetPapersNode)
 workflow_builder.add_node("EvaluatePapers", parallel_evaluation_node)
+workflow_builder.add_node("FullText", FullTextNode)
+workflow_builder.add_node("Extract", parallel_extraction_node)
 
 workflow_builder.add_edge("GetPubMedIds", "GetPapers")
 workflow_builder.add_edge("GetPapers", "EvaluatePapers")
-workflow_builder.add_edge("EvaluatePapers", END)
+workflow_builder.add_edge("EvaluatePapers", "FullText")
+workflow_builder.add_edge("FullText", "Extract")
+workflow_builder.add_edge("Extract", END)
 
 workflow = workflow_builder.compile()
 
 def stream_graph_updates(initial_state: State):
     for event in workflow.stream(initial_state):
-        for value in event.values():
-            print(value["is_relevant"])
+        print("Event: ", event)
+        print("Values", event.values())
+        if "extracted" in event.values():
+            for extracted in event["extracted"]:
+                print(extracted)
+                print("=" * 100)
 
 if __name__ == "__main__":
     cid="5570"
-    query = "Find papers that support the hypothesis that Trigonelline causes cancer"
+    query = "Find papers that support the hypothesis that Trigonelline prevents cancer"
 
     initial_state: State = {
         "pubchem_id": cid,
         "query": query,
         "pmids": [],
         "papers": [],
-        "is_relevant": []
+        "is_relevant": [],
+        "relevant_papers_text": [],
+        "extracted": []
     }
     stream_graph_updates(initial_state)

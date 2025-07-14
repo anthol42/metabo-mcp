@@ -237,7 +237,7 @@ class PubMedClient:
 
         return "".join(text_parts).strip()
 
-    def get_title_and_abstract(self, pmid: str) -> str:
+    def get_title_and_abstract(self, pmid: str) -> Tuple[str, str]:
         """
         Retrieve title and abstract for a given PMID.
 
@@ -290,7 +290,22 @@ if __name__ == "__main__":
     # Example usage
     client = PubMedClient()
 
-    pmid = 11248497
-    for i in range(1000):
-        title_and_abstract = client.get_title_and_abstract(pmid[i])
-        print(i)
+    pmids = [
+          21561886,
+          30208301,
+          34774977,
+          29959986,
+          26593444,
+          20567778,
+          33148531,
+          29211853,
+          21985060,
+          31935362,
+          9011,
+          1710653,
+          24015256
+    ]
+    for pmid in pmids:
+        title, abstract = client.get_title_and_abstract(pmid)
+        print(f"# {title}\n\n{abstract}")
+        print("="*100)

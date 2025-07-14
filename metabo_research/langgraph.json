@@ -1,8 +1,9 @@
 {
   "dependencies": ["."],
   "graphs": {
-    "agent": "./agent/agent.py:graph",
-    "reformulator": "./agent/nodes/reformulator.py:reformulator"
+    "agent": "./agent/agent.py:workflow",
+    "reformulator": "./agent/nodes/reformulator.py:reformulator",
+    "evaluator": "./agent/nodes/paper_evaluator.py:evaluator"
   },
   "env": ".env"
 }

@@ -12,8 +12,9 @@ root = Path(__file__).parent.parent
 class ExtractorState(TypedDict):
     """State that will be passed between nodes"""
     query: str
-    relevant_papers_text: List[tuple[str, str, str]]
+    papers: List[tuple[str, str, str]]
     extracted: List[str]
+    is_relevant: List[bool]
 
 def get_system_prompt() -> str:
     with open(root / "prompts" / "extractor_sys.md", "r") as f:
@@ -47,7 +48,7 @@ def format_paper(paper: tuple[str, str, str]) -> str:
 
 def parallel_extraction_node(state: ExtractorState) -> dict[str, list[str]]:
     query = state["query"]
-    papers = state["relevant_papers_text"]
+    papers = [paper for paper, is_relevant in zip(state["papers"], state["is_relevant"]) if is_relevant]
 
     # Use ThreadPoolExecutor for parallel execution
     if len(papers) > 0:

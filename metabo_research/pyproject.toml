@@ -18,6 +18,8 @@ dependencies = [
     "langgraph>=0.5.2",
     "langgraph-cli[inmem]>=0.3.4",
     "python-dotenv>=1.1.0",
+    "torch>=2.7.1",
+    "transformers>=4.53.2",
 ]
 
 [tool.hatch.build.targets.wheel]

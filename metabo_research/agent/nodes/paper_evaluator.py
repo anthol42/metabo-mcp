@@ -12,7 +12,7 @@ root = Path(__file__).parent.parent
 class QueryState(TypedDict):
     """State that will be passed between nodes"""
     query: str
-    papers: List[tuple[str, str]]
+    papers: List[tuple[str, str, str]]
     is_relevant: List[bool]
 
 class ResponseFormat(BaseModel):
@@ -41,15 +41,16 @@ def evaluate_single_paper(query: str, paper: str) -> bool:
     response = ResponseFormat.model_validate(response)
     return response.relevant == 'yes'
 
-def format_paper(paper: tuple[str, str]) -> str:
+def format_paper(paper: tuple[str, str, str]) -> str:
     """Format the paper for evaluation"""
-    title, abstract = paper
+    title, abstract, _ = paper
     return f"# {title}\n\n{abstract}"
 
 def parallel_evaluation_node(state: QueryState) -> dict[str, str]:
     """
     Node that takes a single query and a list of papers, evaluates each paper for relevance in parallel,
     """
+    print(state)
     query = state["query"]
     papers = state["papers"]
 

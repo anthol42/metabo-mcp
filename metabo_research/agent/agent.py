@@ -20,16 +20,15 @@ class State(TypedDict):
     pubchem_id: str # (CID)
     query: str
     pmids: List[str]
-    papers: List[Tuple[str, str]]
+    papers: List[Tuple[str, str, str]]
 
     # For the evaluation node
     is_relevant: List[bool]
 
     # For the extractor node
-    relevant_papers_text: List[tuple[str, str, str]]
     extracted: List[str]
 
-def GetPubMedIdsNode(state: State) -> State:
+def GetPubMedIdsNode(state: State) -> dict:
     """
     Node that retrieves PubMed IDs for a given PubChem ID.
     """
@@ -43,7 +42,7 @@ def GetPubMedIdsNode(state: State) -> State:
 
     return {"pmids": pmids}
 
-def GetPapersNode(state: State) -> State:
+def GetPapersNode(state: State) -> dict:
     """
     Node that retrieves paper titles and abstracts for the given PubMed IDs.
     """
@@ -51,22 +50,13 @@ def GetPapersNode(state: State) -> State:
 
     # Fetch papers from PubMed
     client = PubMedClient()
-    papers = [client.get_title_and_abstract(pmid) for pmid in progress(pmids)]
+    papers = [client.get_title_and_abstract(pmid) for pmid in progress(pmids, desc="Retrieving paper titles and abstracts")]
+    full_texts = [client.get_full_text(paper[0]) for paper in progress(papers, desc="Fetching full texts")]
 
     # Update state with the query and papers
-    return {"papers": papers}
-
-def FullTextNode(state: State) -> State:
-    """
-    Node that retrieves full text for papers that are deemed relevant.
-    """
-    client = PubMedClient()
-    relevant_papers = [paper for paper, relevant in zip(state["papers"], state["is_relevant"]) if relevant]
-    full_texts = [client.get_full_text(paper[0]) for paper in progress(relevant_papers, desc="Fetching full texts")]
-
-    return {"relevant_papers_text": [
+    return {"papers": [
         (title, abstract, full_text)
-        for (title, abstract), full_text in zip(relevant_papers, full_texts)
+        for (title, abstract), full_text in zip(papers, full_texts)
     ]}
 
 workflow_builder = StateGraph(State)
@@ -75,13 +65,11 @@ workflow_builder.add_node("GetPubMedIds", GetPubMedIdsNode)
 workflow_builder.set_entry_point("GetPubMedIds")
 workflow_builder.add_node("GetPapers", GetPapersNode)
 workflow_builder.add_node("EvaluatePapers", parallel_evaluation_node)
-workflow_builder.add_node("FullText", FullTextNode)
 workflow_builder.add_node("Extract", parallel_extraction_node)
 
 workflow_builder.add_edge("GetPubMedIds", "GetPapers")
 workflow_builder.add_edge("GetPapers", "EvaluatePapers")
-workflow_builder.add_edge("EvaluatePapers", "FullText")
-workflow_builder.add_edge("FullText", "Extract")
+workflow_builder.add_edge("EvaluatePapers", "Extract")
 workflow_builder.add_edge("Extract", END)
 
 workflow = workflow_builder.compile()

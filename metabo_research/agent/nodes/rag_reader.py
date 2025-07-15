@@ -70,11 +70,16 @@ def retrieval_node(state: QueryState) -> dict[str, list[tuple[str, str]]]:
         docs_list.extend(chunks)
 
     # Create vector store from Document objects
-    vectorstore = InMemoryVectorStore.from_documents(documents=docs_list, embedding=HugginFaceEmbedding())
+    vectorstore = InMemoryVectorStore.from_documents(documents=docs_list, embedding=HugginFaceEmbedding(pooling_strategy="mean"))
     retriever = vectorstore.as_retriever()
 
     # Get relevant documents based on the query
     raw_results = retriever.invoke(query)
-    output = [(doc.metadata["title"], doc.page_content) for doc in raw_results]
+    out = {}
+    for doc in raw_results:
+        if doc.metadata["title"] in out:
+            out[doc.metadata["title"]] += "\n\n" + doc.page_content
+        else:
+            out[doc.metadata["title"]] = doc.page_content
 
-    return {"retrieved": output}
+    return {"retrieved": [(title, text) for title, text in out.items()]}

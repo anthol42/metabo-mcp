@@ -12,13 +12,16 @@ from dotenv import load_dotenv
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pubmed import PubMedClient
 from pubchem import get_pubmed_ids
-from nodes import parallel_evaluation_node, parallel_extraction_node
+from nodes import parallel_evaluation_node, parallel_extraction_node, retrieval_node
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 class State(TypedDict):
     pubchem_id: str # (CID)
     query: str
+    # Parameters
+    retrieval: bool
+
     pmids: List[str]
     papers: List[Tuple[str, str, str]]
 
@@ -27,6 +30,8 @@ class State(TypedDict):
 
     # For the extractor node
     extracted: List[str]
+
+
 
 def GetPubMedIdsNode(state: State) -> dict:
     """
@@ -59,6 +64,16 @@ def GetPapersNode(state: State) -> dict:
         for (title, abstract), full_text in zip(papers, full_texts)
     ]}
 
+def conditional_branch(state: State) -> str:
+    """
+    Based on the retrieval parameter, decide whether to continue with the evaluation and extraction nodes or the
+    retrieval node
+    """
+    if state.get("retrieval", True):
+        return "Retrieval"
+    else:
+        return "EvaluatePapers"
+
 workflow_builder = StateGraph(State)
 
 workflow_builder.add_node("GetPubMedIds", GetPubMedIdsNode)
@@ -66,12 +81,13 @@ workflow_builder.set_entry_point("GetPubMedIds")
 workflow_builder.add_node("GetPapers", GetPapersNode)
 workflow_builder.add_node("EvaluatePapers", parallel_evaluation_node)
 workflow_builder.add_node("Extract", parallel_extraction_node)
+workflow_builder.add_node("Retrieval", retrieval_node)
 
 workflow_builder.add_edge("GetPubMedIds", "GetPapers")
-workflow_builder.add_edge("GetPapers", "EvaluatePapers")
+workflow_builder.add_conditional_edges("GetPapers", conditional_branch, {"Retrieval": "Retrieval", "EvaluatePapers": "EvaluatePapers"})
 workflow_builder.add_edge("EvaluatePapers", "Extract")
 workflow_builder.add_edge("Extract", END)
-
+workflow_builder.add_edge("Retrieval", END)
 workflow = workflow_builder.compile()
 
 def stream_graph_updates(initial_state: State):

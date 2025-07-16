@@ -12,8 +12,8 @@ root = Path(__file__).parent.parent
 class ExtractorState(TypedDict):
     """State that will be passed between nodes"""
     query: str
-    papers: List[tuple[str, str, str]]
-    extracted: List[str]
+    papers: List[tuple[str, str, str, str]]
+    extracted: List[tuple[str, str, str]]
     is_relevant: List[bool]
 
 def get_system_prompt() -> str:
@@ -38,9 +38,9 @@ def extract_single_paper(query: str, paper: str) -> str:
     response = llm.invoke(messages)
     return response.content.strip()
 
-def format_paper(paper: tuple[str, str, str]) -> str:
+def format_paper(paper: tuple[str, str, str, str]) -> str:
     """Format the paper for extraction"""
-    title, abstract, fulltext = paper
+    pmid, title, abstract, fulltext = paper
     if fulltext == "Full text not available":
         return f"# {title}\n\n### Abstract\n\n{abstract}"
     else:
@@ -61,10 +61,10 @@ def parallel_extraction_node(state: ExtractorState) -> dict[str, list[str]]:
 
             # Collect results
             extracted = []
-            for future in futures:
+            for (pmid, title, _, _), future in zip(papers, futures):
                 try:
                     result = future.result(timeout=30)  # 30 second timeout
-                    extracted.append(result)
+                    extracted.append((pmid, title, result))
                 except Exception as e:
                     print(f"Error in reformulation: {e}")
     else:

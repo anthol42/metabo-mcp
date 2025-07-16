@@ -5,14 +5,14 @@ and their reference using LangChain Document objects
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from utils import HugginFaceEmbedding
+from agent.utils import HugginFaceEmbedding
 from typing import TypedDict, List
 
 class QueryState(TypedDict):
     """State that will be passed between nodes"""
     query: str
-    papers: List[tuple[str, str, str]]
-    retrieved: List[tuple[str, str]] # List of tuples (title, retrieved text)
+    papers: List[tuple[str, str, str, str]] # PMID, title, abstract, full text
+    retrieved: List[tuple[str, str, str]] # List of tuples (title, retrieved text)
 
 papers = [
     ("Inhibitory effects of ginseng total saponin on nicotine-induced hyperactivity, reverse tolerance and dopamine receptor supersensitivity.",
@@ -21,14 +21,14 @@ papers = [
      "In the rat, nicotine is metabolized to cotinine primarily by hepatic cytochrome P450 (CYP) 2B1. This enzyme is also found in other organs such as the lung and the brain. Hepatic nicotine metabolism is unaltered after nicotine exposure; however, nicotine may regulate CYP2B1 in other tissues. We hypothesized that nicotine induces its own metabolism in brain by increasing CYP2B1. Male rats were treated with nicotine (0.0, 0.1, 0.3, or 1.0 mg base/kg in saline) s.c. daily for 7 days. CYP2B1 mRNA and protein were assayed in the brain and liver by reverse transcriptase-polymerase chain reaction (RT-PCR), immunoblotting, and immunocytochemistry. In control rats, CYP2B1 mRNA and protein expression were brain region- and cell-specific. CYP2B1 was not induced in the liver, but CYP2B1 mRNA and protein showed dose-dependent, region- and cell-specific patterns of induction across brain regions. At 1.0 mg nicotine/kg, the largest increase in protein was in the brain stem (5.8-fold, P < 0.05) with a corresponding increase in CYP2B1 mRNA (7.6-fold, P < 0.05). Induction of CYP2B1 was also observed in the frontal cortex, striatum, and olfactory tubercle. Immunocytochemistry showed that induction was restricted principally to neurons. These data indicate that nicotine may alter its own metabolism in the brain through transcriptional regulation, perhaps contributing to central tolerance to the effects of nicotine. CYP2B1 and its human homologue CYP2B6 also activate tobacco smoke procarcinogens such as NNK [4-(methylnitrosamino)-1-(3-pyridyl)-1-butanone]. Highly localized increases in CYP2B could result in increased mutagenesis. These data suggest roles for nicotine-induced CYP2B in central metabolic tolerance, nicotine-induced neurotoxicity, neuroplasticity, and carcinogenesis.")
 ]
 
-def create_document_from_paper(paper: tuple[str, str, str], paper_id: int) -> Document:
+def create_document_from_paper(paper: tuple[str, str, str, str], paper_id: int) -> Document:
     """
     Create a LangChain Document from a paper tuple.
     :param paper: A tuple containing the title and abstract of the paper
     :param paper_id: Unique identifier for the paper
     :return: Document object with formatted content and metadata
     """
-    title, abstract, text = paper
+    pmid, title, abstract, text = paper
     if text != "Full text not available":
         content = f"# {title}\n\n### Abstract\n\n{abstract}\n\n{text}"
     else:
@@ -37,6 +37,7 @@ def create_document_from_paper(paper: tuple[str, str, str], paper_id: int) -> Do
     return Document(
         page_content=content,
         metadata={
+            "pmid": pmid,
             "title": title,
             "paper_id": paper_id,
             "type": "research_paper",
@@ -44,7 +45,7 @@ def create_document_from_paper(paper: tuple[str, str, str], paper_id: int) -> Do
         }
     )
 
-def retrieval_node(state: QueryState) -> dict[str, list[tuple[str, str]]]:
+def retrieval_node(state: QueryState) -> dict[str, list[tuple[str, str, str]]]:
     """
     Node that takes a single query and a list of papers, evaluates each paper for relevance in parallel,
     """
@@ -54,7 +55,6 @@ def retrieval_node(state: QueryState) -> dict[str, list[tuple[str, str]]]:
 
     # Create Document objects from papers
     documents = [create_document_from_paper(paper, i) for i, paper in enumerate(papers)]
-
     # Split documents into chunks
     text_splitter = RecursiveCharacterTextSplitter(
         separators=[".", "!", "?", "\n", "\n\n"],
@@ -78,8 +78,8 @@ def retrieval_node(state: QueryState) -> dict[str, list[tuple[str, str]]]:
     out = {}
     for doc in raw_results:
         if doc.metadata["title"] in out:
-            out[doc.metadata["title"]] += "\n\n" + doc.page_content
+            out[doc.metadata["title"]] = (doc.metadata["pmid"], out[doc.metadata["title"]][1] + "\n\n" + doc.page_content)
         else:
-            out[doc.metadata["title"]] = doc.page_content
+            out[doc.metadata["title"]] = (doc.metadata["pmid"], doc.page_content)
 
-    return {"retrieved": [(title, text) for title, text in out.items()]}
+    return {"retrieved": [(pmid, title, text) for title, (pmid, text) in out.items()]}

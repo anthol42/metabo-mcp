@@ -23,14 +23,15 @@ class State(TypedDict):
     retrieval: bool
 
     pmids: List[str]
-    papers: List[Tuple[str, str, str]]
+    papers: List[Tuple[str, str, str, str]] # PMID, title, abstract, full_text
 
     # For the evaluation node
     is_relevant: List[bool]
 
     # For the extractor node
-    extracted: List[str]
+    extracted: List[tuple[str, str, str]]
 
+    retrieved: List[tuple[str, str, str]]
 
 
 def GetPubMedIdsNode(state: State) -> dict:
@@ -55,13 +56,13 @@ def GetPapersNode(state: State) -> dict:
 
     # Fetch papers from PubMed
     client = PubMedClient()
-    papers = [client.get_title_and_abstract(pmid) for pmid in progress(pmids, desc="Retrieving paper titles and abstracts")]
+    papers = [(str(pmid),) + tuple(elem for elem in client.get_title_and_abstract(pmid)) for pmid in progress(pmids, desc="Retrieving paper titles and abstracts")]
     full_texts = [client.get_full_text(paper[0]) for paper in progress(papers, desc="Fetching full texts")]
 
     # Update state with the query and papers
     return {"papers": [
-        (title, abstract, full_text)
-        for (title, abstract), full_text in zip(papers, full_texts)
+        (pmid, title, abstract, full_text)
+        for (pmid, title, abstract), full_text in zip(papers, full_texts)
     ]}
 
 def conditional_branch(state: State) -> str:
@@ -69,7 +70,7 @@ def conditional_branch(state: State) -> str:
     Based on the retrieval parameter, decide whether to continue with the evaluation and extraction nodes or the
     retrieval node
     """
-    if state.get("retrieval", True):
+    if state["retrieval"]:
         return "Retrieval"
     else:
         return "EvaluatePapers"

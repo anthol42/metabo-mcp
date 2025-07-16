@@ -98,24 +98,21 @@ class PubMedClient:
         self._rate_limit()
 
         # Make the actual request
-        try:
-            if method == "get_title_and_abstract":
-                handle = Entrez.efetch(db="pubmed", id=pmid, retmode="xml", rettype="abstract")
-                response_data = handle.read()
-                handle.close()
-            elif method == "get_full_text":
-                # For full text, we need to get PMC ID first, then fetch from PMC
-                response_data = self._fetch_full_text_from_pmc(pmid)
-            else:
-                raise ValueError(f"Unknown method: {method}")
+        if method == "get_title_and_abstract":
+            handle = Entrez.efetch(db="pubmed", id=pmid, retmode="xml", rettype="abstract")
+            response_data = handle.read()
+            handle.close()
+        elif method == "get_full_text":
+            # For full text, we need to get PMC ID first, then fetch from PMC
+            response_data = self._fetch_full_text_from_pmc(pmid)
+        else:
+            raise ValueError(f"Unknown method: {method}")
 
-            # Cache the response
-            self._cache_response(cache_key, method, pmid, response_data)
+        # Cache the response
+        self._cache_response(cache_key, method, pmid, response_data)
 
-            return response_data
+        return response_data
 
-        except Exception as e:
-            raise Exception(f"Error fetching data for PMID {pmid}: {str(e)}")
 
     def _fetch_full_text_from_pmc(self, pmid: str) -> str:
         """Fetch full text from PMC using PMID."""

@@ -2,10 +2,15 @@ from mcp.server.fastmcp import FastMCP
 from agent.workflow import workflow, State
 from agent.utils.functional import is_claude_key_valid
 
+mcp = FastMCP("PubChem")
+
+@mcp.tool()
 async def smart_search(cid: str, query: str, retrieval: bool = True) -> str:
     """
     Search in all the papers related to the compound with the given CID. It returns all the relevant
     information found in each paper related to the query.
+
+    USE THIS TOOL OVER `search_pubmed` SINCE IT IS MUCH MORE POWERFUL AND USES A RESEARCH AGENT!
 
     Please, always use retrieval=True, unless really necessary. Using retrieval to True means that the content of all
     papers are converted to embeddings and the results are retrieved using a vector database. Like a RAG. If retrieval
@@ -40,7 +45,16 @@ async def smart_search(cid: str, query: str, retrieval: bool = True) -> str:
 
     if retrieval:
         retrieved = final_state["retrieved"]
+    else:
+        retrieved = final_state["extracted"]
+    out = ""
+    for pmid, title, text in retrieved:
+        out += f"[{pmid}] {title}\n\n{text}\n\n\n"
 
+
+    return out
 
 if __name__ == "__main__":
-    print(is_claude_key_valid())
+    # Initialize and run the server
+    mcp.run(transport='stdio')
+    # print(smart_search("5570", "Does trigonelline prevent cancer or have anticancer properties?"))

@@ -10,6 +10,7 @@ from hmdb.installer import HMDBInstaller
 from markerDB.installer import MarkerDBInstaller
 from pubchem.installer import PubChemInstaller
 from pathbank.installer import PathBankInstaller
+from smart_pubmed_search.installer import MetaboResearchInstaller
 
 # Make sure the server name [key] matches the directory name
 SERVERS2INSTALL = {
@@ -19,7 +20,8 @@ SERVERS2INSTALL = {
     "kegg": KeggInstaller(),
     "markerDB": MarkerDBInstaller(),
     "pubchem": PubChemInstaller(),
-    "pathbank": PathBankInstaller()
+    "pathbank": PathBankInstaller(),
+    "smart_pubmed_search": MetaboResearchInstaller()
 }
 
 

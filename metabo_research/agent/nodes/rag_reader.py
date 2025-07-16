@@ -71,7 +71,7 @@ def retrieval_node(state: QueryState) -> dict[str, list[tuple[str, str, str]]]:
 
     # Create vector store from Document objects
     vectorstore = InMemoryVectorStore.from_documents(documents=docs_list, embedding=HugginFaceEmbedding(pooling_strategy="mean"))
-    retriever = vectorstore.as_retriever()
+    retriever = vectorstore.as_retriever(search_kwargs={"k": max(int(0.1 * len(docs_list)), 40)})
 
     # Get relevant documents based on the query
     raw_results = retriever.invoke(query)

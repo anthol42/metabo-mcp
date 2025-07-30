@@ -1,26 +1,26 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Any, List
 import numpy as np
 
 
-def plot_performances(acc: Dict[str, Tuple[pd.Series, pd.Series]]):
+def plot_performances(acc: List[Dict[str, Tuple[Any, np.ndarray, np.ndarray, float, float]]]):
     """
     Make a bar plot with uncertainty bars of the performances of the model given a dictionary of accuracies.
     The keys of the dictionary are the names of the models and the values is a series containing the accuracies on
     each split.
 
     The error bars represent the standard deviation of the accuracies across the splits.
-    :param acc: A dictionary where keys are model names and values are a tuple of two pandas Series: train and test
-    balanced accuracies.
+    :param acc: A dictionary where keys are model names and values are a tuple containing the predictions as numpy
+    array (train and test), then the balanced accuracy for train and test. Each dict in the list corresponds to a different split.
     :return: The figure
     """
     # Extract model names and compute means and stds for train and test
-    model_names = list(acc.keys())
-    train_means = [acc[model][0].mean() for model in model_names]
-    train_stds = [acc[model][0].std() for model in model_names]
-    test_means = [acc[model][1].mean() for model in model_names]
-    test_stds = [acc[model][1].std() for model in model_names]
+    model_names = list(acc[0].keys())
+    train_means = [np.mean([item[model][3] for item in acc]) for model in model_names]
+    train_stds = [np.std([item[model][3] for item in acc]) for model in model_names]
+    test_means = [np.mean([item[model][4] for item in acc]) for model in model_names]
+    test_stds = [np.std([item[model][4] for item in acc]) for model in model_names]
 
     # Set up the figure
     fig, ax = plt.subplots(figsize=(12, 6))
@@ -64,12 +64,12 @@ def plot_performances(acc: Dict[str, Tuple[pd.Series, pd.Series]]):
     # Add value labels on top of bars
     for bar, mean, std in zip(train_bars, train_means, train_stds):
         height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width() / 2., height + std / 2,
+        ax.text(bar.get_x() + bar.get_width() / 2., height - 1 * std - 0.05,
                 f'{mean:.3f}', ha='center', va='bottom', fontsize=9)
 
     for bar, mean, std in zip(test_bars, test_means, test_stds):
         height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width() / 2., height + std / 2,
+        ax.text(bar.get_x() + bar.get_width() / 2., height - 1 * std - 0.05,
                 f'{mean:.3f}', ha='center', va='bottom', fontsize=9)
 
     # Adjust layout to prevent label cutoff

@@ -4,7 +4,41 @@ import numpy as np
 from typing import Dict
 import seaborn as sns
 
+def get_feat_imp_scm(rules, rule_imp, num_features):
+    feat = [stump.feature_idx for stump in rules]
+    feat_imp = np.zeros(num_features)
+    for idx, imp in zip(feat, rule_imp):
+        feat_imp[idx] = imp
 
+    return feat_imp
+
+def make_feat_imp(optimizers: Dict[str, 'Optimizer'], feature_names: list[str]) -> Dict[str, pd.DataFrame]:
+    feature_importances = {}
+    for name, optimizer in optimizers.items():
+        if name == "SetCoveringMachineClassifier":
+            feats = [get_feat_imp_scm(optim.model.model_.rules, optim.model.rule_importances_, len(feature_names)) for optim
+                     in optimizer]
+        else:
+            feats = [optim.model.feature_importances_ for optim in optimizer]
+
+        # Normalize the feature importances
+        feats = [feat / np.sum(feat) for feat in feats]
+
+        # Agglomerate the feature importances using the mean
+        feats = np.mean(feats, axis=0)
+
+        # Normalize again
+        feats = feats / np.sum(feats)
+
+        # Make a dataframe
+        feat_imp_df = pd.DataFrame({
+            'feature': feature_names,
+            'importance': feats
+        }).sort_values(by='importance', ascending=False)
+
+        feature_importances[name] = feat_imp_df
+
+    return feature_importances
 def feature_heatmap(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10):
     """
     Plot a kinda heatmap of the feature importance for each model for the top n features.
@@ -73,9 +107,6 @@ def feature_heatmap(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10
     # Adjust layout
     plt.tight_layout()
 
-    # Show the plot
-    plt.show()
-
 
 def feature_logplot(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10, figsize: tuple = None):
     """
@@ -117,11 +148,13 @@ def feature_logplot(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10
     ax = sns.barplot(x='importance', y='feature', data=all_features_df)
 
     # Add value labels at the left of each bar
+    med_imp = np.median(all_features_df['importance'].values)
     for i, (idx, row) in enumerate(all_features_df.iterrows()):
         # Get the bar width (importance value)
         bar_width = row['importance']
         # Position the text slightly to the left of the bar start
-        ax.text(bar_width * 1.07, i, f'{100*bar_width:.1f}%',
+        x = bar_width if bar_width >= med_imp else bar_width + 0.02
+        ax.text(x, i, f'{100*bar_width:.1f}%',
                 va='center', ha='right',
                 color='black', fontsize=10)
 
@@ -131,7 +164,7 @@ def feature_logplot(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10
     plt.xlabel('Importance')
     plt.ylabel('Feature')
     plt.title(f'Top {top_n} features across all models', fontsize=14, pad=20)
-    plt.show()
+    plt.tight_layout()
 
 # Example usage:
 if __name__ == "__main__":

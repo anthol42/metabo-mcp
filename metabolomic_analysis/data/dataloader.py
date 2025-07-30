@@ -9,7 +9,7 @@ class Dataloader:
                  id_column: Optional[str] = None,
                  pairing_column: Optional[str] = None,
                  subset: Optional[dict[str, list[str]]] = None,
-                 index_col: Optional[int] = 0):
+                 index_col: Optional[int] = None):
         """
         Initialize the Dataloader with paths to data and metadata files.
         :param data_path: The path to the data file (CSV format).
@@ -62,10 +62,11 @@ class Dataloader:
 
         # Filter the metadata based on the subset if provided
         metadata = self._filter_data(self.metadata, self.subset)
-        data = pd.merge(self.data.reset_index(), metadata, left_on='index', right_on=self.id_column, how='right')
-        data = data.set_index('index')
+        data = pd.merge(self.data.reset_index(), metadata, left_on=self.id_column, right_on=self.id_column, how='right')
+        data = data.set_index(self.id_column)
 
         features = list(self.data.columns) + (self.feature_columns or [])
+        features.pop(features.index(self.id_column))
         targets = data[self.target_column]
         data = data[features]
 

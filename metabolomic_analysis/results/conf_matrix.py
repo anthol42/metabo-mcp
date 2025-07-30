@@ -23,13 +23,14 @@ def _rgb_to_luminance(rgb_color):
     # Calculate relative luminance (Rec. 709)
     return 0.2126 * r_linear + 0.7152 * g_linear + 0.0722 * b_linear
 
-def plot_confusion_matrix(preds: List[np.ndarray], targets: List[np.ndarray], labels: Tuple[str, str]):
+def plot_confusion_matrix(preds: List[np.ndarray], targets: List[np.ndarray], labels: Tuple[str, str], model_name: str):
     """
     Plot a confusion matrix that is the agglomeration of each confusion matrix of each split. The aggregation used is
     the sum, then the confusion matrix is normalized to get percentage values.
     :param preds: A list of numpy arrays containing the predictions for each split. Each array should be 1D and boolean
     :param targets: A list of numpy arrays containing the targets for each split. Each array should be 1D and boolean
     :param labels: A tuple containing the labels for 0 and 1 classes, e.g. ('Negative', 'Positive')
+    :param model_name: Name of the model
     :return: None
     """
     if len(preds) != len(targets):
@@ -68,8 +69,7 @@ def plot_confusion_matrix(preds: List[np.ndarray], targets: List[np.ndarray], la
 
     # Normalize the aggregated confusion matrix to get percentages
     total_samples = np.sum(aggregated_cm)
-    normalized_cm = aggregated_cm / total_samples * 100
-
+    normalized_cm = aggregated_cm / np.sum(aggregated_cm, axis=1, keepdims=True)
     # Create the plot
     fig, ax = plt.subplots(figsize=(8, 6))
 
@@ -98,7 +98,7 @@ def plot_confusion_matrix(preds: List[np.ndarray], targets: List[np.ndarray], la
             percentage = normalized_cm[i, j]
 
             # Get the actual RGB color from the colormap
-            normalized_value = percentage / 100.0  # Normalize to 0-1 for colormap
+            normalized_value = percentage  # Normalize to 0-1 for colormap
             rgb_color = cmap(normalized_value)[:3]  # Get RGB values (exclude alpha)
 
             # Calculate luminance using the standard formula
@@ -106,12 +106,12 @@ def plot_confusion_matrix(preds: List[np.ndarray], targets: List[np.ndarray], la
             luminance = _rgb_to_luminance(rgb_color)
 
             # Use white text for dark backgrounds (low luminance), black for light backgrounds
-            text_color = 'white' if luminance < 0.6 else 'black'
+            text_color = 'white' if luminance < 0.2 else 'black'
 
             ax.text(j + 0.5, i + 0.5, f'{percentage:.1f}%\n({count})',
                     ha='center', va='center', fontsize=10,
                     color=text_color)
-    plt.title('Confusion Matrix (Aggregated across all splits)', fontsize=16, fontweight='bold', pad=20)
+    plt.title(f'Confusion Matrix for {model_name}', fontsize=16, fontweight='bold', pad=20)
     plt.xlabel('Predicted Label', fontsize=13, fontweight='bold')
     plt.ylabel('True Label', fontsize=13, fontweight='bold')
 
@@ -130,7 +130,6 @@ def plot_confusion_matrix(preds: List[np.ndarray], targets: List[np.ndarray], la
 
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.15)  # Make room for the stats
-    plt.show()
 
 
 # Example usage:

@@ -58,7 +58,7 @@ def _objective(trial: optuna.Trial, model_cls: type, Xs_train: List[np.ndarray],
                 hparams[param_name] = trial.suggest_int(param_name, param_range.min_value, param_range.max_value, log=param_range.log)
             else:
                 hparams[param_name] = trial.suggest_float(param_name, param_range.min_value, param_range.max_value, log=param_range.log)
-    mean_score = 0.
+    scores = []
     for X_train, X_val, y_train, y_val in zip(Xs_train, Xs_val, ys_train, ys_val):
         # Init with hparams
         model = model_cls(**hparams)
@@ -67,10 +67,10 @@ def _objective(trial: optuna.Trial, model_cls: type, Xs_train: List[np.ndarray],
 
         # Eval
         y_pred = model.predict(X_val)
-        mean_score += balanced_accuracy_score(y_val, y_pred)
+        scores.append(balanced_accuracy_score(y_val, y_pred))
 
     # Return the mean score across all cross validation splits
-    return mean_score / len(Xs_val)
+    return np.mean(scores) - np.std(scores)
 
 
 def _worker(db_path: str, study_name: str, n: int, model_cls: type, Xs_train: List[np.ndarray], ys_train: List[np.ndarray],
@@ -185,8 +185,6 @@ class Optimizer:
             if num_workers == -1:
                 num_workers = os.cpu_count() or 1
 
-            print(f"Starting optimization with {num_workers} workers for {self.n} trials...")
-
             # Distribute trials across workers
             trials_per_worker = self.n // num_workers
             remaining_trials = self.n % num_workers
@@ -248,7 +246,6 @@ class Optimizer:
 
             print(f"Optimization completed. Best score: {best_value:.4f}")
             print(f"Best parameters: {best_params}")
-            print(f"Total trials completed: {len(study.trials)}")
 
             return best_params
 

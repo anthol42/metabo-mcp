@@ -4,7 +4,6 @@ from typing import Optional, Literal, Union
 from mcp.server.fastmcp import Image, FastMCP
 from pathlib import PurePath
 import pandas as pd
-import sbmlnetwork
 
 mcp = FastMCP("PathBank")
 

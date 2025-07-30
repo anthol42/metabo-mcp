@@ -107,20 +107,7 @@ def feature_heatmap(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10
     # Adjust layout
     plt.tight_layout()
 
-
-def feature_logplot(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10, figsize: tuple = None):
-    """
-    Make a horizontal bar plot of the top_n most important features across all models.
-    It normalizes its importance in percentage and plot them in log2 scale.
-    :param feature_importance: A dictionary where keys are model names and values are DataFrames with feature
-    importance. The DataFrame should have a column 'feature' with feature names and a column 'importance' with their
-    importance scores.
-    :param top_n: The top n features to sample in each model. Then, the top n remaining features are plot. This is done
-    in a 2 step filtering.
-    :param figsize: The size of the figure to plot. If None, the default size is used.
-    :return: None
-    """
-
+def get_important_features_df(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10) -> pd.DataFrame:
     # Step 1: Sample the top_n features from each model
     all_top_features = set()
     model_top_features = {}
@@ -142,6 +129,23 @@ def feature_logplot(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10
     # Step 3: Sample the top_n features from the agglomerated dataset
     all_features_df = all_features_df.nlargest(top_n, 'importance')
     all_features_df['importance'] = all_features_df['importance'] / all_features_df['importance'].sum()
+
+    return all_features_df
+
+def feature_logplot(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10, figsize: tuple = None):
+    """
+    Make a horizontal bar plot of the top_n most important features across all models.
+    It normalizes its importance in percentage and plot them in log2 scale.
+    :param feature_importance: A dictionary where keys are model names and values are DataFrames with feature
+    importance. The DataFrame should have a column 'feature' with feature names and a column 'importance' with their
+    importance scores.
+    :param top_n: The top n features to sample in each model. Then, the top n remaining features are plot. This is done
+    in a 2 step filtering.
+    :param figsize: The size of the figure to plot. If None, the default size is used.
+    :return: None
+    """
+
+    all_features_df = get_important_features_df(feature_importance, top_n)
 
     # Step 4: Plot the features in log2 scale
     figsize and plt.figure(figsize=figsize)

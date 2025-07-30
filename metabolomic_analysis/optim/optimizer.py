@@ -112,7 +112,7 @@ class Optimizer:
         self.model = None
 
     def fit(self, X: np.ndarray, y: np.ndarray, *, pairing_column_data: Optional[np.ndarray] = None,
-            timeout: Optional[int] = None, progress_cb: Optional[Callable[[int], None]] = None, model: Any = None) -> None:
+            timeout: Optional[int] = None, progress_cb: Optional[Callable[[int], None]] = None, model: Any = None, logger = print) -> None:
         """
         Search for the best hyperparameters using Optuna, then train the model with the best hyperparameters.
         After, the trained model is accessible from the `model` attribute.
@@ -130,7 +130,7 @@ class Optimizer:
             self.model = model
             self.model.fit(X, y)
         else:
-            hparams = self.optimize(X, y, pairing_column_data=pairing_column_data, timeout=timeout, progress_cb=progress_cb)
+            hparams = self.optimize(X, y, pairing_column_data=pairing_column_data, timeout=timeout, progress_cb=progress_cb, logger=logger)
             self.model = self.model_cls(**hparams)
             self.model.fit(X, y)
 
@@ -147,7 +147,7 @@ class Optimizer:
         return balanced_accuracy_score(y, y_pred)
 
     def optimize(self, X: np.ndarray, y: np.ndarray, *, pairing_column_data: Optional[np.ndarray] = None,
-                 timeout: Optional[int] = None, progress_cb: Optional[Callable[[int], None]] = None) -> dict:
+                 timeout: Optional[int] = None, progress_cb: Optional[Callable[[int], None]] = None, logger = print) -> dict:
         """
         Uses Optuna to do a baysian hyperparameter optimization of the model using cross-validation.
         :param X: The feature dataset as a numpy array.
@@ -190,7 +190,7 @@ class Optimizer:
             remaining_trials = self.n % num_workers
 
             def signal_handler(signum, frame):
-                print("\nReceived interrupt signal. Terminating processes...")
+                logger("\nReceived interrupt signal. Terminating processes...")
                 for process in processes:
                     if process.is_alive():
                         process.terminate()
@@ -228,7 +228,7 @@ class Optimizer:
                 if timeout:
                     process.join(timeout=timeout)
                     if process.is_alive():
-                        print(f"Process timed out, terminating...")
+                        logger(f"Process timed out, terminating...")
                         process.terminate()
                         process.join()
                 else:
@@ -238,19 +238,19 @@ class Optimizer:
             study = optuna.load_study(study_name=study_name, storage=f"sqlite:///{db_path}")
 
             if len(study.trials) == 0:
-                print("No trials completed successfully.")
+                logger("No trials completed successfully.")
                 return {}
 
             best_params = study.best_params
             best_value = study.best_value
 
-            print(f"Optimization completed. Best score: {best_value:.4f}")
-            print(f"Best parameters: {best_params}")
+            logger(f"Optimization completed. Best score: {best_value:.4f}")
+            logger(f"Best parameters: {best_params}")
 
             return best_params
 
         except Exception as e:
-            print(f"Error during optimization: {e}")
+            logger(f"Error during optimization: {e}")
             for process in processes:
                 if process.is_alive():
                     process.terminate()
@@ -270,7 +270,7 @@ class Optimizer:
                 if os.path.exists(db_path):
                     os.remove(db_path)
             except Exception as e:
-                print(f"Warning: Could not delete temporary database {db_path}: {e}")
+                logger(f"Warning: Could not delete temporary database {db_path}: {e}")
 
 
     def _split(self, X: np.ndarray, y: np.ndarray) -> Tuple[

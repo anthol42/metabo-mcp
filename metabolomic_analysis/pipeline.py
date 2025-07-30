@@ -5,7 +5,7 @@ import pandas as pd
 from data import Dataloader, Imputer
 from split import Spliter
 from optim import Optimizer, ParamRange
-from results import plot_confusion_matrix, feature_logplot, feature_heatmap, plot_performances, make_feat_imp
+from results import plot_confusion_matrix, feature_logplot, feature_heatmap, plot_performances, make_feat_imp, get_important_features_df
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -56,36 +56,36 @@ if __name__ == '__main__':
     for i, split in enumerate(splits):
         print(f"Split {i+1}/{len(splits)}")
         X_train, X_test, y_train, y_test = split.X_train, split.X_test, split.y_train, split.y_test
-
-        if inverse is None:
-            # Check if we should inverse positive and negative
-            inverse = input(f'The current labels are: [0: {split.targets[0]}, 1: {split.targets[1]}]. Do you want to inverse them? (y/n): ').lower() == 'y'
-
-        if inverse:
-            y_train = 1 - y_train
-            y_test = 1 - y_test
-
-        results.append({})
-        for algo_cls, params in algogrids:
-            print("\tTraining with algorithm:", algo_cls.__name__)
-            # Create the optimizer
-            optim = Optimizer(
-                model_cls=algo_cls,
-                n=50,
-                cv=5,
-                param_grid=params
-            )
-            optim.fit(X_train, y_train)
-            print(optim.score(X_test, y_test))
-            results[i][algo_cls.__name__] = (
-                optim,
-                optim.model.predict(X_test),
-                y_test,
-                optim.score(X_train, y_train),
-                optim.score(X_test, y_test),
-            )
-    with open('tmp_results.pkl', 'wb') as f:
-        pickle.dump(results, f)
+        break
+    #     if inverse is None:
+    #         # Check if we should inverse positive and negative
+    #         inverse = input(f'The current labels are: [0: {split.targets[0]}, 1: {split.targets[1]}]. Do you want to inverse them? (y/n): ').lower() == 'y'
+    #
+    #     if inverse:
+    #         y_train = 1 - y_train
+    #         y_test = 1 - y_test
+    #
+    #     results.append({})
+    #     for algo_cls, params in algogrids:
+    #         print("\tTraining with algorithm:", algo_cls.__name__)
+    #         # Create the optimizer
+    #         optim = Optimizer(
+    #             model_cls=algo_cls,
+    #             n=50,
+    #             cv=5,
+    #             param_grid=params
+    #         )
+    #         optim.fit(X_train, y_train)
+    #         print(optim.score(X_test, y_test))
+    #         results[i][algo_cls.__name__] = (
+    #             optim,
+    #             optim.model.predict(X_test),
+    #             y_test,
+    #             optim.score(X_train, y_train),
+    #             optim.score(X_test, y_test),
+    #         )
+    # with open('tmp_results.pkl', 'wb') as f:
+    #     pickle.dump(results, f)
     with open('tmp_results.pkl', 'rb') as f:
         results = pickle.load(f)
     # Show performances
@@ -111,4 +111,5 @@ if __name__ == '__main__':
     feature_logplot(feature_importances, 10)
     plt.savefig('tmp_feature_logplot.png')
     plt.show()
+    print(get_important_features_df(feature_importances, top_n=10).to_csv(index=None))
 

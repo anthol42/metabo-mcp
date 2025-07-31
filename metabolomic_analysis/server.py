@@ -163,7 +163,7 @@ async def analysis_pipeline(
 
         results.append({})
         for algo_cls, params in algogrids:
-            await ctx.info("Training with algorithm: {algo_cls.__name__}")
+            await ctx.info(f"Training with algorithm: {algo_cls.__name__}")
             # Create the optimizer
             optim = Optimizer(
                 model_cls=algo_cls,

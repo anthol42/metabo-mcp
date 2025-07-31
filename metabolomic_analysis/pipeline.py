@@ -2,6 +2,7 @@ from pprint import pprint
 import pickle
 import matplotlib.pyplot as plt
 import pandas as pd
+from utils import build_report, save_fig
 from data import Dataloader, Imputer
 from split import Spliter
 from optim import Optimizer, ParamRange
@@ -90,26 +91,27 @@ if __name__ == '__main__':
         results = pickle.load(f)
     # Show performances
     plot_performances(results)
-    plt.savefig('tmp_performances.png')
-    plt.show()
+    perf = save_fig()
     models = results[0].keys()
     preds = {model: [item[model][1] for item in results] for model in models}
     targets = {model: [item[model][2] for item in results] for model in models}
+    cms = []
     for model in models:
         labels = split.targets[::-1] if inverse else split.targets
         plot_confusion_matrix(preds[model], targets[model], labels=labels, model_name=model)
-        plt.savefig(f'tmp_cm_{model}.png')
-        plt.show()
+        cms.append(save_fig())
 
     # Show feature importance
     optimizers = {model: [item[model][0] for item in results] for model in models}
     feature_importances = make_feat_imp(optimizers, split.features)
 
     feature_heatmap(feature_importances, 5)
-    plt.savefig('tmp_feature_heatmap.png')
-    plt.show()
+    hm = save_fig()
     feature_logplot(feature_importances, 10)
-    plt.savefig('tmp_feature_logplot.png')
-    plt.show()
-    print(get_important_features_df(feature_importances, top_n=10).to_csv(index=None))
+    logplot = save_fig()
+    df = get_important_features_df(feature_importances, top_n=10)
+
+    data_info = f"Number of samples: {len(X)}\n\nNumber of features: {X.shape[1]}\n\n"
+    build_report([perf, *cms, hm, logplot], df, output_path="tmp.pdf", additional_info=data_info)
+
 

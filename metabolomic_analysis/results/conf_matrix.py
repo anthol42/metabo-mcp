@@ -125,8 +125,8 @@ def plot_confusion_matrix(preds: List[np.ndarray], targets: List[np.ndarray], la
 
     # Add statistics in a separate text box below the plot
     stats_text = f"Accuracy: {accuracy:.3f}  |  Precision: {precision:.3f}  |  Recall: {recall:.3f}  |  F1-Score: {f1_score:.3f}"
-    plt.figtext(0.5, 0.02, stats_text, ha='center', fontsize=11,
-                bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+    # plt.figtext(0.5, 0.02, stats_text, ha='center', fontsize=11,
+    #             bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
 
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.15)  # Make room for the stats

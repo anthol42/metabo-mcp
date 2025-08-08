@@ -189,17 +189,17 @@ class Optimizer:
             trials_per_worker = self.n // num_workers
             remaining_trials = self.n % num_workers
 
-            def signal_handler(signum, frame):
-                logger("\nReceived interrupt signal. Terminating processes...")
-                for process in processes:
-                    if process.is_alive():
-                        process.terminate()
-                for process in processes:
-                    process.join(timeout=5)  # Give processes 5 seconds to terminate
-                sys.exit(0)
-
-            # Register the signal handler
-            signal.signal(signal.SIGINT, signal_handler)
+            # def signal_handler(signum, frame):
+            #     logger("\nReceived interrupt signal. Terminating processes...")
+            #     for process in processes:
+            #         if process.is_alive():
+            #             process.terminate()
+            #     for process in processes:
+            #         process.join(timeout=5)  # Give processes 5 seconds to terminate
+            #     sys.exit(0)
+            #
+            # # Register the signal handler
+            # signal.signal(signal.SIGINT, signal_handler)
             for i in range(num_workers):
                 worker_trials = trials_per_worker + (1 if i < remaining_trials else 0)
 

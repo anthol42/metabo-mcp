@@ -102,7 +102,7 @@ def feature_heatmap(feature_importance: Dict[str, pd.DataFrame], top_n: int = 10
     ax.set_title(f'Agglomerated top {top_n} features for all splits', fontsize=14, pad=20)
 
     # Rotate x-axis labels for better readability
-    plt.setp(ax.get_xticklabels(), rotation=0, ha="center")
+    plt.setp(ax.get_xticklabels(), rotation=25, ha="right")
 
     # Adjust layout
     plt.tight_layout()

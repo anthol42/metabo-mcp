@@ -8,7 +8,6 @@ dependencies = [
     "antho-utils>=0.1.0",
     "biopython>=1.85",
     "lxml>=5.4.0",
-    "mcp>=1.9.4",
     "optuna>=4.4.0",
     "pandas>=2.3.0",
     "requests>=2.32.4",
@@ -23,4 +22,7 @@ dependencies = [
     "openpyxl>=3.1.5",
     "pyscm-ml==1.1.2",
     "randomscm>=0.1.2",
+    "mcp<1.10",
+    "reportlab>=4.4.3",
+    "xgboost>=3.0.3",
 ]

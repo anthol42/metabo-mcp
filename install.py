@@ -11,6 +11,7 @@ from markerDB.installer import MarkerDBInstaller
 from pubchem.installer import PubChemInstaller
 from pathbank.installer import PathBankInstaller
 from smart_pubmed_search.installer import MetaboResearchInstaller
+from metabolomic_analysis.installer import MetaboAnalysisInstaller
 
 # Make sure the server name [key] matches the directory name
 SERVERS2INSTALL = {
@@ -21,7 +22,8 @@ SERVERS2INSTALL = {
     "markerDB": MarkerDBInstaller(),
     "pubchem": PubChemInstaller(),
     "pathbank": PathBankInstaller(),
-    "smart_pubmed_search": MetaboResearchInstaller()
+    # "smart_pubmed_search": MetaboResearchInstaller(),
+    # "metabolomic_analysis": MetaboAnalysisInstaller(),
 }
 
 

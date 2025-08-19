@@ -1,9 +1,13 @@
 # Metabo-MCP
 This package contains multiple MCP servers that allows LLMs to access databases essential for metabolomics research.
 
+## Run the pipeline
+```bash
+uv run metabolomic_analysis/pipeline.py
+```
 ## Installation
 This is the installation steps for Claude Desktop. Make sure you have installed it before [Claude Desktop](https://claude.ai/download)\
-You must also have installed [UV](https://docs.astral.sh/uv/getting-started/installation/)
+You must also have installed [UV](https://docs.astral.sh/uv/getting-started/installation/). You also may need to install xgboost headers. I installed them using [homebrew](https://brew.sh).
 1. Open your terminal
 2. Clone the repository:
 ```bash

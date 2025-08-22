@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import threading
 import os
-from pathlib import Path
+from pathlib import Path, PurePath
 
 # Import your existing modules
 import pickle
@@ -116,7 +116,7 @@ class MLPipelineGUI:
         row += 1
 
         # Max proportion difference
-        ttk.Label(main_frame, text="Max Proportion Diff:").grid(row=row, column=0, sticky=tk.W, pady=2)
+        ttk.Label(main_frame, text="Max Inbalance:").grid(row=row, column=0, sticky=tk.W, pady=2)
         ttk.Entry(main_frame, textvariable=self.max_prop_diff, width=10).grid(row=row, column=1, sticky=tk.W, padx=5)
         row += 1
 
@@ -403,6 +403,10 @@ class MLPipelineGUI:
             self.log("Building final report...")
             data_info = f"Number of samples: {len(X)}\n\nNumber of features: {X.shape[1]}\n\n"
             build_report([perf, *cms, hm, logplot], df, output_path=self.output_path.get(), additional_info=data_info)
+
+            all_feat = get_important_features_df(feature_importances, top_n=10_000)
+            path = ".".join(self.output_path.get().split(".")[:-1])
+            all_feat.to_csv(path + ".csv", index=False)
 
             # Final progress update
             self.update_progress(100, 100, "Pipeline completed successfully!")

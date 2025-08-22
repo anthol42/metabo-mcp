@@ -184,7 +184,7 @@ def build_report(png_images_bytes, dataframe, output_path,
 
         # Add data rows
         for _, row in dataframe.iterrows():
-            table_data.append([str(cell) for cell in row])
+            table_data.append([f'{cell:.2f}' if isinstance(cell, float) else f'{cell}' for cell in row])
 
         # Create table
         table = Table(table_data)
